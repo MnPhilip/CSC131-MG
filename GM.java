@@ -1,0 +1,39 @@
+public class GM {
+    RNG randNum = new RNG();
+
+    String GMOutput = "";
+    Player PObj[];  // Player type
+    Monster Mobj[]; // Monster type
+
+    boolean combat (Entity defender, Entity attacker, int damage ){
+        while(defender.hp > 0 && attacker.hp > 0){
+             int Adiceroll = randNum.diceRoll(20, 1);
+             int Ddiceroll = randNum.diceRoll(20, 1);
+                if(Adiceroll > Ddiceroll){
+                    return false;
+                }else{
+                    Update(PObj[1], damage);
+                }
+        }
+        
+        return true;
+    }
+    int Update(Player Pobj, int value){
+        int HPUpdate = Pobj.hp -= value;
+        return HPUpdate;
+    }
+    void Prompt(int chap){
+
+    }
+    void Response(int chap, Entity PObj, int result){
+        
+
+    }
+    void Initialize(){
+
+    }
+    String resolve(String gmp, String up, int res){
+        return "";
+    }
+
+}
