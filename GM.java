@@ -1,6 +1,13 @@
 public class GM {
     RNG randNum = new RNG();
 
+
+    //HAHAHHHAHHAHA
+        //HAHAHHHAHHAHA
+            //HAHAHHHAHHAHA
+                //HAHAHHHAHHAHA
+                    //HAHAHHHAHHAHA
+                    
     String GMOutput = "";
     Player PObj[];  // Player type
     Monster Mobj[]; // Monster type
@@ -19,7 +26,7 @@ public class GM {
         return true;
     }
     int Update(Player Pobj, int value){
-        int HPUpdate = Pobj.hp -= value;
+        int HPUpdate = Pobj.hp - value;
         return HPUpdate;
     }
     void Prompt(int chap){
