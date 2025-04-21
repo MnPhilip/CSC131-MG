@@ -9,8 +9,8 @@ public class GM {
                     //HAHAHHHAHHAHA
                     
     String GMOutput = "";
-    Player PObj[];  // Player type
-    Monster Mobj[]; // Monster type
+    Player PObj[3];  // Player type
+    Monster Mobj[6]; // Monster type
 
     boolean combat (Entity defender, Entity attacker, int damage ){
         while(defender.hp > 0 && attacker.hp > 0){
