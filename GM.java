@@ -1,32 +1,32 @@
 public class GM {
-    RNG randNum = new RNG();
-
+    RNG generate = new RNG();
 
     //HAHAHHHAHHAHA
         //HAHAHHHAHHAHA
             //HAHAHHHAHHAHA
                 //HAHAHHHAHHAHA
                     //HAHAHHHAHHAHA
+                    //for ttesting purposes
                     
     String GMOutput = "";
-    Player PObj[3];  // Player type
-    Monster Mobj[6]; // Monster type
+    Player[] PObj = {};
+    Monster[] Mobj = {}; // Monster type
 
-    boolean combat (Entity defender, Entity attacker, int damage ){
+    boolean combat (Entity defender, Entity attacker, int damage){
         while(defender.hp > 0 && attacker.hp > 0){
-             int Adiceroll = randNum.diceRoll(20, 1);
-             int Ddiceroll = randNum.diceRoll(20, 1);
+             int Adiceroll = generate.diceRoll(20, 1);
+             int Ddiceroll = generate.diceRoll(20, 1);
                 if(Adiceroll > Ddiceroll){
                     return false;
                 }else{
-                    Update(PObj[1], damage);
+                    Update(PObj, damage);
                 }
         }
         
         return true;
     }
-    int Update(Player Pobj, int value){
-        int HPUpdate = Pobj.hp - value;
+    int Update(Player Pobj[], int value){
+        int HPUpdate = Pobj[0].hp - value;
         return HPUpdate;
     }
     void Prompt(int chap){
@@ -36,8 +36,10 @@ public class GM {
         
 
     }
-    void Initialize(){
-
+    void Initialize()
+    {
+        System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS");
+        
     }
     String resolve(String gmp, String up, int res){
         return "";
