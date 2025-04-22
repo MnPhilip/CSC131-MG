@@ -12,18 +12,22 @@ public class GM {
     Player PObj[];  // Player type
     Monster Mobj[]; // Monster type
 
-    boolean combat (Entity defender, Entity attacker, int damage ){
-        while(defender.hp > 0 && attacker.hp > 0){
-             int Adiceroll = randNum.diceRoll(20, 1);
-             int Ddiceroll = randNum.diceRoll(20, 1);
-                if(Adiceroll > Ddiceroll){
-                    return false;
-                }else{
-                    Update(PObj[1], damage);
-                }
-        }
-        
-        return true;
+    boolean combat (Entity defender, Entity attacker)
+    {
+        int dmg, defense;
+        boolean turn = true;
+        do 
+        {
+            // add some way for player or monster to flee and return true if successful flee
+            dmg = (turn)? diceroll(attacker.dType, attacker.dNum) : diceRoll(defender.dType, defender.dNum);
+            stat = (turn)? diceroll(defender.dType, defender.dNum) : diceroll(attacker.dType, attacker.dNum);
+            if(stat < dmg)
+            {
+                (turn)? Update(defender, dmg) : Update(attacker, dmg);
+            }
+  
+        } while (defender.hp >0 && attacker.hp > 0);
+        return false; // someone died
     }
     int Update(Player Pobj, int value){
         int HPUpdate = Pobj.hp - value;

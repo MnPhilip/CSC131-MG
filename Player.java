@@ -4,16 +4,18 @@ public class Player extends Entity {
         switch (pRole) {
             case 0: 
             //Wizard, low hp, low amount of dice but high dice type, high mp
-                hp = diceRoll()
+                hp = diceRoll(6, 4);
                 mp = 20;
                 dNum = 2;
                 dType = 20;
             //Barbarians high hp, low mp, high amount of dice
             case 1:
+                hp = diceRoll(12, 6);
                 mp = 10;
                 dNum = 4;
                 dType = 6;
             case 2:
+                hp = diceRoll(10, 4);
                 mp = 15;
                 dNum = 6;
                 dType = 4;

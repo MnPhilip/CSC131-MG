@@ -20,4 +20,6 @@ public class Entity extends GM{
         }
         return mp;
     }
+
+    public int Status()
 }
