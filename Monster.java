@@ -1,6 +1,6 @@
-public class Monster extends Entity
+class Monster extends Entity
 {
-    Monster(int Mtype)
+    public Monster(int Mtype)
     {
         switch (Mtype)
         {

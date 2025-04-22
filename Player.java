@@ -5,6 +5,7 @@ public class Player extends Entity {
             case 0: 
             //Wizard, low hp, low amount of dice but high dice type, high mp
                 hp = diceRoll(6, 4);
+                hp = generate.diceRoll(12, 2);
                 mp = 20;
                 dNum = 2;
                 dType = 20;

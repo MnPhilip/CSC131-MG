@@ -1,16 +1,16 @@
 public class GM {
-    RNG randNum = new RNG();
-
+    RNG generate = new RNG();
 
     //HAHAHHHAHHAHA
         //HAHAHHHAHHAHA
             //HAHAHHHAHHAHA
                 //HAHAHHHAHHAHA
                     //HAHAHHHAHHAHA
+                    //for ttesting purposes
                     
     String GMOutput = "";
-    Player PObj[];  // Player type
-    Monster Mobj[]; // Monster type
+    Player[] PObj = {};
+    Monster[] Mobj = {}; // Monster type
 
     boolean combat (Entity defender, Entity attacker)
     {
@@ -28,9 +28,10 @@ public class GM {
   
         } while (defender.hp >0 && attacker.hp > 0);
         return false; // someone died
+
     }
-    int Update(Player Pobj, int value){
-        int HPUpdate = Pobj.hp - value;
+    int Update(Player Pobj[], int value){
+        int HPUpdate = Pobj[0].hp - value;
         return HPUpdate;
     }
     void Prompt(int chap){
@@ -40,8 +41,10 @@ public class GM {
         
 
     }
-    void Initialize(){
-
+    void Initialize()
+    {
+        System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS");
+        
     }
     String resolve(String gmp, String up, int res){
         return "";
