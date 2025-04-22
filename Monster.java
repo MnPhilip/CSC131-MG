@@ -4,6 +4,11 @@ class Monster extends Entity
     {
         switch (Mtype)
         {
+            //NAME: To be printed in the GUI
+            //HP: Determines when the player wins once HP is 0
+            //MP: Increments each turn, meaning when it hits a certain value the monster unleashes a stronger attack
+            //dNum: max number on each of their dice
+            //dType: quantity of dice rolled for an attack
             case 0:
                 // lizard man
                 //fill with stats
@@ -44,7 +49,7 @@ class Monster extends Entity
                 dType = 4;
             case 5:
                 //Alchemist
-                name = "Alchemist";
+                name = "Royal Alchemist";
                 hp = 80;
                 mp = 0;
                 dNum = 2;

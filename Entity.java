@@ -5,21 +5,28 @@ public class Entity extends GM{
     public int dType;
     public String name;
 
-    public int HPset(int HP){
+    public int HPset(int HP)
+    {
         this.hp = HP;
-        if (HP <= 0) {
+        if (HP <= 0)
+        {
             return 0;
         }
         return hp;
     }
 
-    public int MPset(int MP) {
+    public int MPset(int MP)
+    {
         this.mp = MP;
-        if (MP <= 0) {
+        if (MP <= 0)
+        {
             return 0;
         }
         return mp;
     }
 
     public int Status()
+    {
+        return -1; //I don't remember what this does -MP
+    }
 }
