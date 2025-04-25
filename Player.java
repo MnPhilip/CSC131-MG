@@ -1,5 +1,8 @@
+package JCRPG_code;
+
 public class Player extends Entity {
     //Player names will be sent from GUI when created
+    RNG generate = new RNG();
     Player(int pRole)
     {
         switch (pRole)

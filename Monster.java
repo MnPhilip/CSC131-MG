@@ -1,3 +1,5 @@
+package JCRPG_code;
+
 class Monster extends Entity
 {
     public Monster(int Mtype)
