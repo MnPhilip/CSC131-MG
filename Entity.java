@@ -1,3 +1,4 @@
+package JCRPG_code;
 public class Entity extends GM{
     public int hp;
     public int mp;
@@ -28,5 +29,11 @@ public class Entity extends GM{
     public int Status()
     {
         return -1; //I don't remember what this does -MP
+    }
+
+    public void testFunc(Player currPlayer)
+    {
+        System.out.println("TESTING PLAYER STATS:\n");
+        System.out.println("PLAYER 1: " + currPlayer.hp + " " + currPlayer.mp + " " + currPlayer.dNum + " "  + currPlayer.dType);
     }
 }

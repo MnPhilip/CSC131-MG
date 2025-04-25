@@ -1,6 +1,10 @@
-public class GM {
-    RNG generate = new RNG(); //Up here so this whole class and connected classes can use it
+package JCRPG_code;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+public class GM {
     //HAHAHHHAHHAHA
         //HAHAHHHAHHAHA
             //HAHAHHHAHHAHA
@@ -9,14 +13,16 @@ public class GM {
                     //for ttesting purposes
                     
     String GMOutput = ""; //Will hold text when text files are implemented
-    Player[] PObj = {}; //Holds Player instances
-    Monster[] MObj = {}; // Holds Monster instances
+    Player[] PObj = new Player[3]; //Holds Player instances
+    Monster[] MObj = new Monster[8]; // Holds Monster instances
 
 
     //Function handles interactions between two entities, the damage dealt to each, calling respective functions to updates stats
     //and what happens if/when one dies/leaves
     boolean combat (Entity defender, Entity attacker) 
     {
+        RNG generate = new RNG(); //DO NOT MOVE TO TOP OF CLASS - WILL BREAK THE PROGRAM - MP
+                                    //It's a little bit annoying but putting at the top causes a recursive overflow for some reason
         int dmg, defense;
         boolean turn = true;
         do 
@@ -64,21 +70,58 @@ public class GM {
     {
         //TODO: Will update the proper PlayerObject response box with an applicable response from the Player[index] text array (or eventually GPT)
     }
-    void Initialize()
+
+    
+    void Initialize() throws IOException //IOException allows the file garbage to function without complaining
     {
-        System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS");
-        PObj[0] = new Player(0); //TESTER VALUES, WILL EVENTUALLY GRAB RESPECTIVE
-        PObj[1] = new Player(1); //PROLE VALUES FROM GUI AFTER USER INPUT
-        PObj[2] = new Player(2);
+        int chap = 0; //To keep track of where the players are in the story
+        //NOTE: Might need to move to ENTITY class so each player can have their own chap/progression
+        //String currInput; 
+        
+        int txtLineCount = 999; //Flag value, replace with test file line count
+        int lineCounter = 0; //Counter for addressing specific indexes in the array, utilized in the while loop to read text lines from the file
+        String[] textFileLines = new String[txtLineCount]; //This array size will need to be re-sized to the total number of individual
+        //Text lines in the file it's reading from - See the note above there PObj are initialized - MP
+        
+        System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS"); //Only purpose is to prove it was called - MP
+        
+        //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
+        //Arrays require fixed sizes, adding beyond the pre-established size will required a whole slew of new functions just to resize them - MP
+        for (int x = 0; x < 3; x++)
+        {
+            PObj[x] = new Player(x);
+        }
 
         for (int x = 0; x < 8; x++)
         {
             MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
         }
         
+        //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES
+        //Replace with folder-to-file path when they are created
+        Scanner scanFile = new Scanner(new File("REPLACE WITH TEST TEXT FILE"));
+
+        while(scanFile.hasNext())
+        {
+            textFileLines[lineCounter] = scanFile.next();
+        }
+
+        scanFile.close();
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+        // Entity entity = new Entity(); USED FOR TESTING
+        // entity.testFunc(PObj[0]);
+        // entity.testFunc(PObj[1]);
+        // entity.testFunc(PObj[2]);
+
+        // textFileLines[0] = "TEST";
+        // textFileLines[1] = "TEST AGAIN";
+
+        // System.out.println(textFileLines[0]);
+        // System.out.println(textFileLines[1]); USED FOR TESTING
     }
     String resolve(String gmPrompt, String userPrompt, int response){
-        return "ERROR: CODE NOT COMPLETED [RESOLVE IN GM CLASS]"; //Will eventually be equipped to send/recieve data from GPT
+        return "ERROR: CODE NOT COMPLETED ['RESOLVE' FUNC IN GM CLASS]"; //Will eventually be equipped to send/recieve data from GPT
         //Input to GPT needs to be framed to construct a string using the GM prompt, user prompt, and the response typed in from the user in a way that 
         //phrases the whole thing as a question essentially asking "How would you tie this prompt to the response to lead to this conclusion", while also
         //requesting that GPT only send a short, useable response instead of an explanation so the value it returns can immediately be printed in the GUI
