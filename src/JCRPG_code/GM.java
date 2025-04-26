@@ -23,29 +23,94 @@ public class GM {
 
     //Function handles interactions between two entities, the damage dealt to each, calling respective functions to updates stats
     //and what happens if/when one dies/leaves
-    boolean combat (Entity defender, Entity attacker) 
+    //NOTE: (MP) - Changed from defender/attacked to player/monster to make looping and determining when/how to update
+                    //stats significantly easier, PvP will not be implemented anyway so this works out
+    int combat (Player player, Monster monster) //NOTE: (MP) - Changed return value to int, this way the combat can resolve with more outcomes than just a death
     {
+        System.out.println("SUCCESFULLY CALLED COMBAT\n");
         RNG generate = new RNG(); //DO NOT MOVE TO TOP OF CLASS - WILL BREAK THE PROGRAM - MP
-                                    //It's a little bit annoying but putting at the top causes a recursive overflow for some reason
-        int dmg, defense;
+                                //It's a little bit annoying but putting at the top causes a recursive overflow for some reason
+        Entity creature = new Entity();
+        int dmg, outcome;
+        int plrCheck, monCheck; //Used to determine if the attack lands or is dodged
         boolean turn = true;
+
         do 
         {
+            creature.testFunc(player);
+            creature.testFunc(monster);
             //Add some way for player or monster to flee and return true if successful flee
-            dmg = (turn)? generate.diceRoll(attacker.dType, attacker.dNum) : generate.diceRoll(defender.dType, defender.dNum);
-            defense = (turn)? generate.diceRoll(defender.dType, defender.dNum) : generate.diceRoll(attacker.dType, attacker.dNum);
-            //CONCEPT: if/else statement for if damage is higher, deal damage, if else defense is higher, skip and go to the next turn
-                //This would mean we use the 0/1 returned value from update to determine if the loop continues
-            
-            if(defense < dmg)
-            {
-                //(turn)? Update(defender, dmg) : Update(attacker, dmg);
-                //This bit was Added by JD I am unsure what it does but eventually this statement needs to be an assignment statement - MP
-            }
-  
-        } while (defender.hp >0 && attacker.hp > 0);
-        return false; // someone died
+            //DMG = determines the damage dealt from one entity to another
+            dmg = (turn)? generate.diceRoll(monster.dType, monster.dNum) : generate.diceRoll(player.dType, player.dNum);
 
+            plrCheck = generate.diceRoll(1, 20); //Holds outome of player attack/defensive roll
+            monCheck = generate.diceRoll(1, 20); //Holds outome of monster attack/defensive roll
+            
+            int escapeCheck = -1; //Allows potential for the rolling entity to run away
+            //outcome = used to determine what action the "defending" entity is taking (who ever is not attacking)
+            //outcome = (turn)? generate.diceRoll(monster.dType, monster.dNum) : generate.diceRoll(player.dType, player.dNum);
+            
+            //CONCEPT: if/else statement for if damage is higher, deal damage, if else defense is higher, skip and go to the next turn
+            //This would mean we use the 0/1 returned value from update to determine if the loop continues
+            if (turn && monCheck >= plrCheck) //If the monster is attacking and rolls a higher check
+            {
+                outcome = creature.HPset(player, dmg);
+                if (outcome == 0)
+                {
+                    System.out.println("The " + monster.name + " dealt " + dmg + " to " + player.name + ", ending their adventure");
+                    return 0; //Player Died
+                }
+                else 
+                {
+                    System.out.println("The player took " + dmg + " damage, from the " + monster.name);
+                    //TODO: Add call to GUI to update the players health being displayed, as well as display
+                    //text to GUI window and not terminal
+                }
+            }
+            else if (turn && monCheck < plrCheck) //Monster attack but they miss player can escape
+                {
+                    escapeCheck = generate.diceRoll(6, 1);
+                    if (escapeCheck == 20 || escapeCheck >= 17) //These numbers are arbitrary we can make them more sophisticated later
+                    {
+                        //TODO: Add Code to check where the player is and what map indexes they can flee too
+                    }
+                }
+            else if(!turn && plrCheck >= monCheck) //If the player is attacking and rolls a higher check
+            {
+                outcome = creature.HPset(monster, dmg);
+                if (outcome == 0)
+                {
+                    System.out.println(player.name + " dealt " + dmg + " damage to kill the " + monster.name);
+                    return 1; //Monster DIED
+                }
+                else
+                {
+                    System.out.println("The " + monster.name + " suffered " + dmg + " damage from " + player.name);
+                    //TODO: Update to print to the GUI and not the terminal
+                }
+            }
+            else if (!turn && plrCheck < monCheck && monster.name.equals("Lizard Man"));
+            { //THIS ESCAPE POSSIBILITITY IS ONLY AVAILABLE FOR LIZARD MAN, THE OTHER CREATURE CAN'T MOVE
+                //TODO: Check where the lizard man is and what map indexes he can flee too
+            }
+            
+            // if(defense < dmg)
+            // {
+            //     //(turn)? Update(defender, dmg) : Update(attacker, dmg);
+            //     //This bit was Added by JD I am unsure what it does but eventually this statement needs to be an assignment statement - MP
+            // }
+
+            turn = !turn;
+        } while (player.hp > 0 && monster.hp > 0);
+        if (player.hp <= 0)
+        {
+            return 0; //PLAYER DIED
+        }
+        else if (monster.hp <= 0)
+        {
+            return 1; //monster DIED
+        }
+        return -1; //FLAG VALUE: Somehow fell out of loop without resolution
     }
 
     //POBJ: Array of all available player, 
@@ -71,6 +136,11 @@ public class GM {
         //Code will use the chap integer to know which line to grab from the array
         GMOutput = textFileLines[chap];
         System.out.println(GMOutput);
+        //TODO: GM needs to check the map index and see if a monster should be present, and 
+        //present it to the player if there is 
+
+        //If a monster is present, start combat. IF NOT, accept a response from the player
+
     }
     void Response(int chap, Entity PObj, int result)
     {
@@ -122,6 +192,7 @@ public class GM {
         // System.out.println(textFileLines[0]);
         // System.out.println(textFileLines[1]); USED FOR TESTING
     }
+
     String resolve(String gmPrompt, String userPrompt, int response){
         return "ERROR: CODE NOT COMPLETED ['RESOLVE' FUNC IN GM CLASS]"; //Will eventually be equipped to send/recieve data from GPT
         //Input to GPT needs to be framed to construct a string using the GM prompt, user prompt, and the response typed in from the user in a way that 
