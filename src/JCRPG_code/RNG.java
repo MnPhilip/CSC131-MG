@@ -7,7 +7,7 @@ public class RNG //extends GM
     //amt is number of dice
     public int diceRoll(int dx, int amt) {
         Random numGen = new Random(); //Allows us to use Random Number generator, 
-        int currRand = 0; //Will hold the individual rolls before adding them to the total
+        int currRand; //Will hold the individual rolls before adding them to the total
             //THESE WILL BOTH RESET TO 0 EACH RUN WE WANT THIS
         int total = 0; //Holds total before sending back to wherever it was called
 

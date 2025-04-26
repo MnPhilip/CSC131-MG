@@ -11,7 +11,11 @@ public class GM {
                 //HAHAHHHAHHAHA
                     //HAHAHHHAHHAHA
                     //for ttesting purposes
-                    
+    int txtLineCount = 999; //Flag value, replace with test file line count
+    int lineCounter = 0; //Counter for addressing specific indexes in the array, utilized in the while loop to read text lines from the file
+    String[] textFileLines = new String[txtLineCount]; //This array size will need to be re-sized to the total number of individual
+    //Text lines in the file it's reading from - See the note above there PObj are initialized - MP
+                
     String GMOutput = ""; //Will hold text when text files are implemented
     Player[] PObj = new Player[3]; //Holds Player instances
     Monster[] MObj = new Monster[8]; // Holds Monster instances
@@ -27,7 +31,7 @@ public class GM {
         boolean turn = true;
         do 
         {
-            // add some way for player or monster to flee and return true if successful flee
+            //Add some way for player or monster to flee and return true if successful flee
             dmg = (turn)? generate.diceRoll(attacker.dType, attacker.dNum) : generate.diceRoll(defender.dType, defender.dNum);
             defense = (turn)? generate.diceRoll(defender.dType, defender.dNum) : generate.diceRoll(attacker.dType, attacker.dNum);
             //CONCEPT: if/else statement for if damage is higher, deal damage, if else defense is higher, skip and go to the next turn
@@ -65,6 +69,8 @@ public class GM {
     {
         //TODO: Should Grab text from the GMTextArray and send it to the GUI for output
         //Code will use the chap integer to know which line to grab from the array
+        GMOutput = textFileLines[chap];
+        System.out.println(GMOutput);
     }
     void Response(int chap, Entity PObj, int result)
     {
@@ -74,15 +80,6 @@ public class GM {
     
     void Initialize() throws IOException //IOException allows the file garbage to function without complaining
     {
-        int chap = 0; //To keep track of where the players are in the story
-        //NOTE: Might need to move to ENTITY class so each player can have their own chap/progression
-        //String currInput; 
-        
-        int txtLineCount = 999; //Flag value, replace with test file line count
-        int lineCounter = 0; //Counter for addressing specific indexes in the array, utilized in the while loop to read text lines from the file
-        String[] textFileLines = new String[txtLineCount]; //This array size will need to be re-sized to the total number of individual
-        //Text lines in the file it's reading from - See the note above there PObj are initialized - MP
-        
         System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS"); //Only purpose is to prove it was called - MP
         
         //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
@@ -99,11 +96,16 @@ public class GM {
         
         //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES
         //Replace with folder-to-file path when they are created
-        Scanner scanFile = new Scanner(new File("REPLACE WITH TEST TEXT FILE"));
+        Scanner scanFile = new Scanner(new File("E:\\CONTAINER\\CSUS\\CSC131\\CSC131-MG-MP-FormatFix\\CSC131-MG-MP-FormatFix\\src\\JCRPG_code\\test.txt")); //TO MAKE THIS FUNCTION:
+                                                                        //Right click "test.txt" and click "copy path"
+                                                                        //Then paste it between the quotation marks, KEEP THE QUOTATION MARKS 
 
-        while(scanFile.hasNext())
+        while(scanFile.hasNextLine())
         {
-            textFileLines[lineCounter] = scanFile.next();
+            textFileLines[lineCounter] = scanFile.nextLine() + "\n";
+            //System.out.print(textFileLines[lineCounter]); //- USed for testing -MP
+
+            lineCounter++;
         }
 
         scanFile.close();
