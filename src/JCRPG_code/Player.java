@@ -7,6 +7,7 @@ public class Player extends Entity {
     {
         switch (pRole)
         {
+            hp = 40;
             //HP: Determines if they are alive
             //MP: Determines if/which movements are possible (in the context of the map tree)
             //dNum: Quantity of dice rolled for attacks
