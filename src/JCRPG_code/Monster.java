@@ -21,7 +21,6 @@ class Monster extends Entity
                 dType = 8;
             case 1:
                 //Air Elemental
-                //fill with stats
                 name = "Air Elemental";
                 hp = 60;
                 mp = 0;
@@ -29,7 +28,6 @@ class Monster extends Entity
                 dType = 4;
             case 2:
                 //Fire Elemental
-                //fill with stats
                 name = "Fire Elemental";
                 hp = 60;
                 mp = 0;
