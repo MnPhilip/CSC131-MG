@@ -33,7 +33,7 @@ public class GM {
         Entity creature = new Entity();
         int dmg, outcome;
         int plrCheck, monCheck; //Used to determine if the attack lands or is dodged
-        boolean turn = true;
+        boolean turn = true; //Monster always attacks first, meaning TRUE = monster attacking, FALSE = Player attacking
 
         do 
         {
@@ -43,8 +43,10 @@ public class GM {
             //DMG = determines the damage dealt from one entity to another
             dmg = (turn)? generate.diceRoll(monster.dType, monster.dNum) : generate.diceRoll(player.dType, player.dNum);
 
-            plrCheck = generate.diceRoll(1, 20); //Holds outome of player attack/defensive roll
-            monCheck = generate.diceRoll(1, 20); //Holds outome of monster attack/defensive roll
+            plrCheck = generate.diceRoll(20, 1) + player.def; //Holds outome of player attack/defensive roll
+            monCheck = generate.diceRoll(20, 1); //Holds outome of monster attack/defensive roll
+
+            System.out.println("Player: " + plrCheck + "  Monster: " + monCheck + "\n");
             
             int escapeCheck = -1; //Allows potential for the rolling entity to run away
             //outcome = used to determine what action the "defending" entity is taking (who ever is not attacking)
@@ -69,7 +71,7 @@ public class GM {
             }
             else if (turn && monCheck < plrCheck) //Monster attack but they miss player can escape
                 {
-                    escapeCheck = generate.diceRoll(6, 1);
+                    escapeCheck = generate.diceRoll(20, 1);
                     if (escapeCheck == 20 || escapeCheck >= 17) //These numbers are arbitrary we can make them more sophisticated later
                     {
                         //TODO: Add Code to check where the player is and what map indexes they can flee too
@@ -92,6 +94,7 @@ public class GM {
             else if (!turn && plrCheck < monCheck && monster.name.equals("Lizard Man"));
             { //THIS ESCAPE POSSIBILITITY IS ONLY AVAILABLE FOR LIZARD MAN, THE OTHER CREATURE CAN'T MOVE
                 //TODO: Check where the lizard man is and what map indexes he can flee too
+                //return 2; //Lizard man escaped
             }
             
             // if(defense < dmg)
@@ -154,14 +157,16 @@ public class GM {
         
         //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
         //Arrays require fixed sizes, adding beyond the pre-established size will required a whole slew of new functions just to resize them - MP
-        for (int x = 0; x < 3; x++)
+        for (int y = 0; y < 3; y++)
         {
-            PObj[x] = new Player(x);
+            PObj[y] = new Player(y);
         }
 
-        for (int x = 0; x < 8; x++)
+        for (int x = 0; x < 6; x++)
         {
             MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
+            
+            System.out.println(x);
         }
         
         //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES

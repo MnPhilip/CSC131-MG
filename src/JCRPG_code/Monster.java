@@ -1,8 +1,8 @@
 package JCRPG_code;
 
-class Monster extends Entity
+public class Monster extends Entity
 {
-    public Monster(int Mtype)
+    Monster(int Mtype)
     {
         switch (Mtype)
         {
@@ -17,44 +17,42 @@ class Monster extends Entity
                 name = "Lizard Man";
                 hp = 40;
                 mp = 0;
-                dNum = 3;
-                dType = 8;
+                dNum = 4;
+                dType = 5;
             case 1:
                 //Air Elemental
-                //fill with stats
                 name = "Air Elemental";
                 hp = 60;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
             case 2:
                 //Fire Elemental
-                //fill with stats
                 name = "Fire Elemental";
                 hp = 60;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
             case 3:
                 //Earth Elemental
                 name = "Earth Elemental";
                 hp = 60;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
             case 4:
                 //Water Elemental
                 name = "Water Elemental";
                 hp = 60;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
             case 5:
                 //Alchemist
                 name = "Royal Alchemist";
                 hp = 80;
                 mp = 0;
-                dNum = 2;
+                dNum = 3;
                 dType = 20;
         }
     }
