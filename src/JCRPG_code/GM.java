@@ -20,11 +20,92 @@ public class GM {
     Player[] PObj = new Player[3]; //Holds Player instances
     Monster[] MObj = new Monster[8]; // Holds Monster instances
 
+    //POBJ: Array of all available player, 
+    //VALUE: how much health is being removed (positive number) or added (negative number),
+    //PLAYERINDEX: Number in array for which player is being affected
+    // int Update(Player Pobj[], int value, int playerIndex)
+    // {
+    //     Pobj[playerIndex].hp = Pobj[playerIndex].hp - value;
+    //     if (Pobj[playerIndex].hp <= 0)
+    //     {
+    //         return 1; //Player Died
+    //     }
+    //     else if (Pobj[playerIndex].hp > 0)
+    //     {
+    //         return 0; //Player is still alive
+    //     }
 
+    //     return -1; //Flag value: Code somehow fell out of if statement
+    // }
+    void Initialize() throws IOException //IOException allows the file garbage to function without complaining
+    {
+        System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS"); //Only purpose is to prove it was called - MP
+        
+        //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
+        //Arrays require fixed sizes, adding beyond the pre-established size will required a whole slew of new functions just to resize them - MP
+        for (int y = 0; y < 3; y++)
+        {
+            PObj[y] = new Player(y);
+        }
+
+        for (int x = 0; x < 6; x++)
+        {
+            MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
+            
+            System.out.println(x);
+        }
+        
+        //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES
+        //Replace with folder-to-file path when they are created
+        Scanner scanFile = new Scanner(new File("C:\\Users\\xxunc\\Downloads\\CONTAINER REBOOT\\CSUS\\CSC 131\\CSC_131_Project\\CSC131-MG-main\\CSC131-MG-main\\src\\JCRPG_code\\test.txt")); //TO MAKE THIS FUNCTION:
+                                                                        //Right click "test.txt" and click "copy path"
+                                                                        //Then paste it between the quotation marks, KEEP THE QUOTATION MARKS 
+
+        while(scanFile.hasNextLine())
+        {
+            textFileLines[lineCounter] = scanFile.nextLine() + "\n";
+            //System.out.print(textFileLines[lineCounter]); //- USed for testing -MP
+
+            lineCounter++;
+        }
+
+        scanFile.close();
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+        // Entity entity = new Entity(); USED FOR TESTING
+        // entity.testFunc(PObj[0]);
+        // entity.testFunc(PObj[1]);
+        // entity.testFunc(PObj[2]);
+
+        // textFileLines[0] = "TEST";
+        // textFileLines[1] = "TEST AGAIN";
+
+        // System.out.println(textFileLines[0]);
+        // System.out.println(textFileLines[1]); USED FOR TESTING
+    }
+
+
+    void Prompt(int chap)
+    {
+        //TODO: Should Grab text from the GMTextArray and send it to the GUI for output
+        //Code will use the chap integer to know which line to grab from the array
+        GMOutput = textFileLines[chap];
+        System.out.println(GMOutput);
+        //TODO: GM needs to check the map index and see if a monster should be present, and 
+        //present it to the player if there is 
+
+        //If a monster is present, start combat. IF NOT, accept a response from the player
+
+    }
+    void Response(int chap, Entity PObj, int result)
+    {
+        //TODO: Will update the proper PlayerObject response box with an applicable response from the Player[index] text array (or eventually GPT)
+    }
+    
     //Function handles interactions between two entities, the damage dealt to each, calling respective functions to updates stats
     //and what happens if/when one dies/leaves
     //NOTE: (MP) - Changed from defender/attacked to player/monster to make looping and determining when/how to update
-                    //stats significantly easier, PvP will not be implemented anyway so this works out
+    //stats significantly easier, PvP will not be implemented anyway so this works out
     int combat (Player player, Monster monster) //NOTE: (MP) - Changed return value to int, this way the combat can resolve with more outcomes than just a death
     {
         System.out.println("SUCCESFULLY CALLED COMBAT\n");
@@ -33,12 +114,13 @@ public class GM {
         Entity creature = new Entity();
         int dmg, outcome;
         int plrCheck, monCheck; //Used to determine if the attack lands or is dodged
-        boolean turn = true; //Monster always attacks first, meaning TRUE = monster attacking, FALSE = Player attacking
+        boolean turn = true; //Monster always attacks first, meaning TRUE or turn = monster attacking, FALSE or !turn = Player attacking
 
         do 
         {
             creature.testFunc(player);
             creature.testFunc(monster);
+            System.out.println("\n");
             //Add some way for player or monster to flee and return true if successful flee
             //DMG = determines the damage dealt from one entity to another
             dmg = (turn)? generate.diceRoll(monster.dType, monster.dNum) : generate.diceRoll(player.dType, player.dNum);
@@ -46,7 +128,7 @@ public class GM {
             plrCheck = generate.diceRoll(20, 1) + player.def; //Holds outome of player attack/defensive roll
             monCheck = generate.diceRoll(20, 1); //Holds outome of monster attack/defensive roll
 
-            System.out.println("Player: " + plrCheck + "  Monster: " + monCheck + "\n");
+            System.out.println("Player: " + plrCheck + "  Monster: " + monCheck);
             
             int escapeCheck = -1; //Allows potential for the rolling entity to run away
             //outcome = used to determine what action the "defending" entity is taking (who ever is not attacking)
@@ -76,6 +158,10 @@ public class GM {
                     {
                         //TODO: Add Code to check where the player is and what map indexes they can flee too
                     }
+                    else
+                    {
+                        System.out.println(player.name + " dodged the attack from the " + monster.name);
+                    }
                 }
             else if(!turn && plrCheck >= monCheck) //If the player is attacking and rolls a higher check
             {
@@ -91,10 +177,18 @@ public class GM {
                     //TODO: Update to print to the GUI and not the terminal
                 }
             }
-            else if (!turn && plrCheck < monCheck && monster.name.equals("Lizard Man"));
+            else if (!turn && plrCheck < monCheck)
             { //THIS ESCAPE POSSIBILITITY IS ONLY AVAILABLE FOR LIZARD MAN, THE OTHER CREATURE CAN'T MOVE
-                //TODO: Check where the lizard man is and what map indexes he can flee too
-                //return 2; //Lizard man escaped
+                escapeCheck = generate.diceRoll(20, 1);
+                if (monster.name.equals("Lizard Man") && escapeCheck >= 15)
+                {
+                    //TODO: Check where the lizard man is and what map indexes he can flee too
+                    //return 2; //Lizard man escaped
+                }
+                else
+                {
+                    System.out.println(monster.name + " avoided the attack from " + player.name);
+                }
             }
             
             // if(defense < dmg)
@@ -115,88 +209,7 @@ public class GM {
         }
         return -1; //FLAG VALUE: Somehow fell out of loop without resolution
     }
-
-    //POBJ: Array of all available player, 
-    //VALUE: how much health is being removed (positive number) or added (negative number),
-    //PLAYERINDEX: Number in array for which player is being affected
-    int Update(Player Pobj[], int value, int playerIndex)
-    {
-        Pobj[playerIndex].hp = Pobj[playerIndex].hp - value;
-        if (Pobj[playerIndex].hp <= 0)
-        {
-            return 1; //Player Died
-        }
-        else if (Pobj[playerIndex].hp > 0)
-        {
-            return 0; //Player is still alive
-        }
-
-        return -1; //Flag value: Code somehow fell out of if statement
-    }
-    void Prompt(int chap)
-    {
-        //TODO: Should Grab text from the GMTextArray and send it to the GUI for output
-        //Code will use the chap integer to know which line to grab from the array
-        GMOutput = textFileLines[chap];
-        System.out.println(GMOutput);
-        //TODO: GM needs to check the map index and see if a monster should be present, and 
-        //present it to the player if there is 
-
-        //If a monster is present, start combat. IF NOT, accept a response from the player
-
-    }
-    void Response(int chap, Entity PObj, int result)
-    {
-        //TODO: Will update the proper PlayerObject response box with an applicable response from the Player[index] text array (or eventually GPT)
-    }
-
-    
-    void Initialize() throws IOException //IOException allows the file garbage to function without complaining
-    {
-        System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS"); //Only purpose is to prove it was called - MP
-        
-        //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
-        //Arrays require fixed sizes, adding beyond the pre-established size will required a whole slew of new functions just to resize them - MP
-        for (int y = 0; y < 3; y++)
-        {
-            PObj[y] = new Player(y);
-        }
-
-        for (int x = 0; x < 6; x++)
-        {
-            MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
-            
-            System.out.println(x);
-        }
-        
-        //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES
-        //Replace with folder-to-file path when they are created
-        Scanner scanFile = new Scanner(new File("E:\\CONTAINER\\CSUS\\CSC131\\CSC131-MG-MP-FormatFix\\CSC131-MG-MP-FormatFix\\src\\JCRPG_code\\test.txt")); //TO MAKE THIS FUNCTION:
-                                                                        //Right click "test.txt" and click "copy path"
-                                                                        //Then paste it between the quotation marks, KEEP THE QUOTATION MARKS 
-
-        while(scanFile.hasNextLine())
-        {
-            textFileLines[lineCounter] = scanFile.nextLine() + "\n";
-            //System.out.print(textFileLines[lineCounter]); //- USed for testing -MP
-
-            lineCounter++;
-        }
-
-        scanFile.close();
-
-    ///////////////////////////////////////////////////////////////////////////////////////
-        // Entity entity = new Entity(); USED FOR TESTING
-        // entity.testFunc(PObj[0]);
-        // entity.testFunc(PObj[1]);
-        // entity.testFunc(PObj[2]);
-
-        // textFileLines[0] = "TEST";
-        // textFileLines[1] = "TEST AGAIN";
-
-        // System.out.println(textFileLines[0]);
-        // System.out.println(textFileLines[1]); USED FOR TESTING
-    }
+                
 
     String resolve(String gmPrompt, String userPrompt, int response){
         return "ERROR: CODE NOT COMPLETED ['RESOLVE' FUNC IN GM CLASS]"; //Will eventually be equipped to send/recieve data from GPT

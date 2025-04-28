@@ -34,7 +34,7 @@ public class Entity extends GM{
 
     public void testFunc(Entity creature)
     {
-        System.out.println("Entity: Creature stats test\n");
+        //System.out.println("Entity: Creature stats test\n");
         System.out.println(creature.name + " " + creature.hp + " " + creature.mp + " " + creature.dNum + " "  + creature.dType);
     }
 }
