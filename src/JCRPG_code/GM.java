@@ -1,9 +1,13 @@
 package JCRPG_code;
 
+import JCRPG_gui.LauncherGUI;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.awt.*;
+import javax.swing.*;
 
+@SuppressWarnings("unused")
 public class GM {
     //HAHAHHHAHHAHA
         //HAHAHHHAHHAHA
@@ -41,6 +45,7 @@ public class GM {
     {
         System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS"); //Only purpose is to prove it was called - MP
         
+        new LauncherGUI();
         //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
         //Arrays require fixed sizes, adding beyond the pre-established size will required a whole slew of new functions just to resize them - MP
         for (int y = 0; y < 3; y++)

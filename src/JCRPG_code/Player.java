@@ -14,6 +14,7 @@ public class Player extends Entity {
             //CONCEPT: Add a "def" stat, which adds a flat number to the players defensive roll to increase their chances of dodging or reduce damage
             case 0:     //Wizard, low hp, low amount of dice but high dice type, high mp
                 hp = generate.diceRoll(10, 5);
+                maxHP = hp;
                 def = 3;
                 mp = 20;
                 dNum = 10;
@@ -21,6 +22,7 @@ public class Player extends Entity {
                 break;
             case 1:     //Barbarians high hp, low mp, high amount of dice
                 hp = generate.diceRoll(12, 9);
+                maxHP = hp;
                 def = 7;
                 mp = 10;
                 dNum = 5;
@@ -28,6 +30,7 @@ public class Player extends Entity {
                 break;
             case 2:     //Bard mid hp, mid mp, mid amount of dice, mid mp
                 hp = generate.diceRoll(20, 5);
+                maxHP = hp;
                 def = 5;
                 mp = 15;
                 dNum = 8;

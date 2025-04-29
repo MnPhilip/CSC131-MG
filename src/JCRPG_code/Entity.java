@@ -1,12 +1,12 @@
 package JCRPG_code;
 public class Entity extends GM{
     public int hp;
+    public int maxHP;
     public int def;
     public int mp;
     public int dNum;
     public int dType;
     public String name;
-
     public int HPset(Entity currCreature, int HPlost)
     {
         currCreature.hp = currCreature.hp - HPlost;
