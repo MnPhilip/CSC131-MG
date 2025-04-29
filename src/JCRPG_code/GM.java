@@ -18,7 +18,7 @@ public class GM {
                 
     String GMOutput = ""; //Will hold text when text files are implemented
     Player[] PObj = new Player[3]; //Holds Player instances
-    Monster[] MObj = new Monster[8]; // Holds Monster instances
+    Monster[] MObj = new Monster[6]; // Holds Monster instances
 
     //POBJ: Array of all available player, 
     //VALUE: how much health is being removed (positive number) or added (negative number),
@@ -46,13 +46,14 @@ public class GM {
         for (int y = 0; y < 3; y++)
         {
             PObj[y] = new Player(y);
+            System.out.println(PObj[y].hp);
         }
 
         for (int x = 0; x < 6; x++)
         {
             MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
-            
             System.out.println(x);
+            System.out.println(MObj[x].hp);
         }
         
         //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES
@@ -116,6 +117,13 @@ public class GM {
         int plrCheck, monCheck; //Used to determine if the attack lands or is dodged
         boolean turn = true; //Monster always attacks first, meaning TRUE or turn = monster attacking, FALSE or !turn = Player attacking
 
+        //RETURN CODES:
+        int playerDeath = 0; //Event that player dies in combat
+        int monsterDeath = 1; //Event that a monster is defeated in combat
+        int lizardEscape = 2; //in the event the Lizard Man rolls a check to escape successfully
+        int playerEscape = 3; //Event that Player escapes combat to a new location
+        int playerVictory = 4; //Event the player kills the Royal Alchemist and wins the game
+
         do 
         {
             creature.testFunc(player);
@@ -142,7 +150,7 @@ public class GM {
                 if (outcome == 0)
                 {
                     System.out.println("The " + monster.name + " dealt " + dmg + " to " + player.name + ", ending their adventure");
-                    return 0; //Player Died
+                    return playerDeath; //Player Died
                 }
                 else 
                 {
@@ -151,12 +159,14 @@ public class GM {
                     //text to GUI window and not terminal
                 }
             }
-            else if (turn && monCheck < plrCheck) //Monster attack but they miss player can escape
+            else if (turn && monCheck < plrCheck) //Monster attack but they miss, player can escape
                 {
                     escapeCheck = generate.diceRoll(20, 1);
                     if (escapeCheck == 20 || escapeCheck >= 17) //These numbers are arbitrary we can make them more sophisticated later
                     {
                         //TODO: Add Code to check where the player is and what map indexes they can flee too
+                        System.out.println(player.name + " deftly escapes the " + monster.name + " and makes it into the "/*mapLocation.name*/);
+                        return playerEscape; // Player escaped to new location
                     }
                     else
                     {
@@ -169,7 +179,7 @@ public class GM {
                 if (outcome == 0)
                 {
                     System.out.println(player.name + " dealt " + dmg + " damage to kill the " + monster.name);
-                    return 1; //Monster DIED
+                    return monsterDeath; //Monster DIED
                 }
                 else
                 {
@@ -183,7 +193,7 @@ public class GM {
                 if (monster.name.equals("Lizard Man") && escapeCheck >= 15)
                 {
                     //TODO: Check where the lizard man is and what map indexes he can flee too
-                    //return 2; //Lizard man escaped
+                    return lizardEscape;
                 }
                 else
                 {
@@ -201,11 +211,11 @@ public class GM {
         } while (player.hp > 0 && monster.hp > 0);
         if (player.hp <= 0)
         {
-            return 0; //PLAYER DIED
+            return playerDeath; //PLAYER DIED
         }
         else if (monster.hp <= 0)
         {
-            return 1; //monster DIED
+            return monsterDeath; //monster DIED
         }
         return -1; //FLAG VALUE: Somehow fell out of loop without resolution
     }

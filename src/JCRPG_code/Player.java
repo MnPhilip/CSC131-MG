@@ -18,18 +18,21 @@ public class Player extends Entity {
                 mp = 20;
                 dNum = 10;
                 dType = 8;
+                break;
             case 1:     //Barbarians high hp, low mp, high amount of dice
                 hp = generate.diceRoll(12, 9);
                 def = 7;
                 mp = 10;
                 dNum = 5;
                 dType = 8;
+                break;
             case 2:     //Bard mid hp, mid mp, mid amount of dice, mid mp
                 hp = generate.diceRoll(20, 5);
                 def = 5;
                 mp = 15;
                 dNum = 8;
                 dType = 6;
+                break;
         }
     }
 }

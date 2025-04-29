@@ -4,6 +4,62 @@ public class Monster extends Entity
 {
     Monster(int Mtype)
     {
+        System.out.println(Mtype);
+//         if (Mtype == 0)
+//         {
+//             name = "Lizard Man";
+//             hp = 40;
+//             mp = 0;
+//             dNum = 4;
+//             dType = 5;
+//         }
+//         else if (Mtype == 1)
+//         {
+//             //Air Elemental
+//             name = "Air Elemental";
+//             hp = 60;
+//             mp = 0;
+//             dNum = 4;
+//             dType = 8;
+//         }
+//         else if (Mtype == 2)
+//         {
+//             //Fire Elemental
+//             name = "Fire Elemental";
+//             hp = 60;
+//             mp = 0;
+//             dNum = 4;
+//             dType = 8;
+//         }
+//         else if (Mtype == 3)
+//         {
+//             //Earth Elemental
+//             name = "Earth Elemental";
+//             hp = 60;
+//             mp = 0;
+//             dNum = 4;
+//             dType = 8;
+//         }
+//         else if (Mtype == 4)
+//         {
+//             //Water Elemental
+//             name = "Water Elemental";
+//             hp = 60;
+//             mp = 0;
+//             dNum = 4;
+//             dType = 8;
+//         }
+//         else if (Mtype == 5)
+//         {
+//             //Alchemist
+//             name = "Royal Alchemist";
+//             hp = 80;
+//             mp = 0;
+//             dNum = 3;
+//             dType = 20;
+//         }
+//     }
+// }
         switch (Mtype)
         {
             //NAME: To be printed in the GUI
@@ -19,6 +75,7 @@ public class Monster extends Entity
                 mp = 0;
                 dNum = 4;
                 dType = 5;
+                break;
             case 1:
                 //Air Elemental
                 name = "Air Elemental";
@@ -26,6 +83,7 @@ public class Monster extends Entity
                 mp = 0;
                 dNum = 4;
                 dType = 8;
+                break;
             case 2:
                 //Fire Elemental
                 name = "Fire Elemental";
@@ -33,6 +91,7 @@ public class Monster extends Entity
                 mp = 0;
                 dNum = 4;
                 dType = 8;
+                break;
             case 3:
                 //Earth Elemental
                 name = "Earth Elemental";
@@ -40,6 +99,7 @@ public class Monster extends Entity
                 mp = 0;
                 dNum = 4;
                 dType = 8;
+                break;
             case 4:
                 //Water Elemental
                 name = "Water Elemental";
@@ -47,6 +107,7 @@ public class Monster extends Entity
                 mp = 0;
                 dNum = 4;
                 dType = 8;
+                break;
             case 5:
                 //Alchemist
                 name = "Royal Alchemist";
@@ -54,6 +115,7 @@ public class Monster extends Entity
                 mp = 0;
                 dNum = 3;
                 dType = 20;
+                break;
         }
     }
 }
