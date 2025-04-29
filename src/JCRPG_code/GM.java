@@ -18,7 +18,7 @@ public class GM {
                 
     String GMOutput = ""; //Will hold text when text files are implemented
     Player[] PObj = new Player[3]; //Holds Player instances
-    Monster[] MObj = new Monster[8]; // Holds Monster instances
+    Monster[] MObj = new Monster[6]; // Holds Monster instances
 
     //POBJ: Array of all available player, 
     //VALUE: how much health is being removed (positive number) or added (negative number),
@@ -46,13 +46,14 @@ public class GM {
         for (int y = 0; y < 3; y++)
         {
             PObj[y] = new Player(y);
+            System.out.println(PObj[y].hp);
         }
 
         for (int x = 0; x < 6; x++)
         {
             MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
-            
-            System.out.println(MObj[x].name);
+            System.out.println(x);
+            System.out.println(MObj[x].hp);
         }
         
         //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES
