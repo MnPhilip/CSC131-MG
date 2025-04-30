@@ -42,16 +42,19 @@ public class LauncherGUI extends JFrame
         private JTextField P2Output;
         private JTextField P3Output;
 
-        private JScrollPane P1Scroll;
-        private JScrollPane P2Scroll;
-        private JScrollPane P3Scroll;
+        // private JScrollPane P1Scroll;
+        // private JScrollPane P2Scroll;
+        // private JScrollPane P3Scroll;
 
         private JTextArea GMOutput;
         private JTextField GMName;
         private JScrollPane GMScroll;
 
         JFrame mainFrame = new JFrame();
-        JPanel mainPanel = new JPanel();
+        JPanel gmPanel = new JPanel();
+        JPanel P1Panel = new JPanel();
+        JPanel P2Panel = new JPanel();
+        JPanel P3Panel = new JPanel();
 
         public LauncherGUI()
         {
@@ -63,20 +66,18 @@ public class LauncherGUI extends JFrame
             }
 
             initGUI();
-            setSize(400, 400);
-            setTitle("JCRPG - Adventure Emulator");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setLocationByPlatform(true);
-            add(mainPanel);
+            mainFrame.setSize(500, 650); //DO NOT CHANGE PLEASE - MP (PS. OR ATLEAST COPY AND COMMENT ONE OUT AND CHANGE THE OTHER)
+            mainFrame.setLayout(new FlowLayout());
+            mainFrame.setTitle("JCRPG - Adventure Emulator");
+            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainFrame.setLocationByPlatform(true);
+            //mainFrame.setLayout(new GridBagLayout());
             pack();
-            setVisible(true);
+            mainFrame.setVisible(true);
         }
 
         private void initGUI()
         {
-            //PANEL SETUP
-            //JPanel P1Panel = new JPanel();
-
             nextButton = new JButton("Next");
             nextButton.addActionListener((ActionEven) -> {buttonListener(1); });
 
@@ -102,8 +103,6 @@ public class LauncherGUI extends JFrame
             P2Name.setEditable(true);
             P3Name = new JTextField();
             P3Name.setEditable(true);
-            // P1Role = new JTextField();
-            // P1Rolde.setEditable(true);
 
             P1Label = new JLabel();
             P1Label.setVisible(false);
@@ -140,12 +139,17 @@ public class LauncherGUI extends JFrame
             GMScroll = new JScrollPane(GMOutput, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
             GMScroll.setVisible(true);
 
-            Dimension dim = new Dimension(750, 200);
-            setSize(dim);
+            Dimension dim = new Dimension(150, 200);
 
-            P1Name.setPreferredSize(new Dimension(100, 20));
-            P2Name.setPreferredSize(new Dimension(100, 20));
-            P3Name.setPreferredSize(new Dimension(100, 20));
+            P1Panel.setPreferredSize(dim);
+            P2Panel.setPreferredSize(dim);
+            P3Panel.setPreferredSize(dim);
+            gmPanel.setPreferredSize(new Dimension(450, 250));
+            //setSize(dim);
+
+            P1Label.setPreferredSize(new Dimension(100, 20));
+            P2Label.setPreferredSize(new Dimension(100, 20));
+            P3Label.setPreferredSize(new Dimension(100, 20));
 
             P1HP.setPreferredSize(new Dimension(50, 30));
             P2HP.setPreferredSize(new Dimension(50, 30));
@@ -159,51 +163,67 @@ public class LauncherGUI extends JFrame
             P2Output.setPreferredSize(new Dimension(50, 30));
             P3Output.setPreferredSize(new Dimension(50, 30));
 
-            GMOutput.setPreferredSize(new Dimension(300, 100));
-            GMScroll.setPreferredSize(new Dimension(100, 100));
+            GMOutput.setPreferredSize(new Dimension(300, 200));
+            GMScroll.setPreferredSize(new Dimension(30, 200));
 
             // //MAIN PANEL SETUP
-            // JPanel mainPanel = new JPanel();
-            // mainPanel.setLayout(new GridBagLayout());
+            // JPanel gmPanel = new JPanel();
+            // gmPanel.setLayout(new GridBagLayout());
 
-            mainPanel.setLayout(new GridBagLayout());
+            gmPanel.setLayout(new FlowLayout());
+            P1Panel.setLayout(new GridBagLayout());
+            P2Panel.setLayout(new GridBagLayout());
+            P3Panel.setLayout(new GridBagLayout());
 
-            // mainPanel.add(new JButton("Next"), GridBagLayout.SOUTH);
-            // mainPanel.add(new JButton("Reset"), GridBagLayout.SOUTH);
-            // mainPanel.add(new JButton("Quit"), GridBagLayout.SOUTH);
-            mainPanel.add(new JLabel("GM:"), getConstraints(1, 8, GridBagConstraints.LINE_START));
-            mainPanel.add(GMOutput, getConstraints(2, 8, GridBagConstraints.LINE_END));
-            //mainPanel.add(GMScroll, getConstraints(3, 8, GridBagConstraints.LINE_END));
+
+            // gmPanel.add(new JLabel("GM:"), getConstraints(1, 8, GridBagConstraints.LINE_START));
+            // gmPanel.add(GMOutput, getConstraints(2, 8, GridBagConstraints.LINE_START));
+            // gmPanel.add(GMScroll, getConstraints(3, 8, GridBagConstraints.LINE_START));
+            gmPanel.add(new JLabel("GM:"), new FlowLayout(FlowLayout.CENTER));
+            gmPanel.add(GMOutput, new FlowLayout(FlowLayout.CENTER));
+            gmPanel.add(GMScroll, new FlowLayout(FlowLayout.CENTER));
             
-            mainPanel.add(P1Label, getConstraints(0, 0, GridBagConstraints.LINE_START));
-            mainPanel.add(P1Name, getConstraints(0, 0, GridBagConstraints.LINE_START));
-            mainPanel.add(P1Output, getConstraints(0, 4, GridBagConstraints.LINE_START));
-            mainPanel.add(P1HP, getConstraints(0, 2, GridBagConstraints.LINE_START));
-            mainPanel.add(P1MP, getConstraints(0, 3, GridBagConstraints.LINE_START));
-            mainPanel.add(P1Role, getConstraints(0, 5, GridBagConstraints.LINE_START));
+            P1Panel.add(P1Label, getConstraints(0, 0, GridBagConstraints.LINE_START));
+            P1Panel.add(P1Name, getConstraints(0, 0, GridBagConstraints.LINE_START));
+            P1Panel.add(P1Output, getConstraints(0, 4, GridBagConstraints.LINE_START));
+            P1Panel.add(P1HP, getConstraints(0, 2, GridBagConstraints.LINE_START));
+            P1Panel.add(P1MP, getConstraints(0, 3, GridBagConstraints.LINE_START));
+            P1Panel.add(P1Role, getConstraints(0, 5, GridBagConstraints.LINE_START));
             P1Name.setText("Player 1:");
-            //mainPanel.add(new JLabel("Player One:"), getConstraints(0, 1, GridBagConstraints.LINE_START));
+            //gmPanel.add(new JLabel("Player One:"), getConstraints(0, 1, GridBagConstraints.LINE_START));
 
-            mainPanel.add(P2Label, getConstraints(2, 0, GridBagConstraints.LINE_START));
-            mainPanel.add(P2Name,getConstraints(2, 0, GridBagConstraints.CENTER));
-            mainPanel.add(P2Output, getConstraints(2, 4, GridBagConstraints.LINE_START));
-            mainPanel.add(P2HP, getConstraints(2, 2, GridBagConstraints.LINE_START));
-            mainPanel.add(P2MP, getConstraints(2, 3, GridBagConstraints.LINE_START));
-            mainPanel.add(P2Role, getConstraints(2, 5, GridBagConstraints.LINE_START));
+            P2Panel.add(P2Label, getConstraints(2, 0, GridBagConstraints.LINE_START));
+            P2Panel.add(P2Name,getConstraints(2, 0, GridBagConstraints.LINE_START));
+            P2Panel.add(P2Output, getConstraints(2, 4, GridBagConstraints.LINE_START));
+            P2Panel.add(P2HP, getConstraints(2, 2, GridBagConstraints.LINE_START));
+            P2Panel.add(P2MP, getConstraints(2, 3, GridBagConstraints.LINE_START));
+            P2Panel.add(P2Role, getConstraints(2, 5, GridBagConstraints.LINE_START));
             P2Name.setText("Player 2:");
-           // mainPanel.add(new JLabel("Player Two:"), getConstraints(0, 1, GridBagConstraints.CENTER));
+           // gmPanel.add(new JLabel("Player Two:"), getConstraints(0, 1, GridBagConstraints.CENTER));
 
-            mainPanel.add(P3Label, getConstraints(4, 0, GridBagConstraints.LINE_START));
-            mainPanel.add(P3Name,getConstraints(4, 0, GridBagConstraints.LINE_START));
-            mainPanel.add(P3Output, getConstraints(4, 4, GridBagConstraints.LINE_START));
-            mainPanel.add(P3HP, getConstraints(4, 2, GridBagConstraints.LINE_START));
-            mainPanel.add(P3MP, getConstraints(4, 3, GridBagConstraints.LINE_START));
-            mainPanel.add(P3Role, getConstraints(4, 5, GridBagConstraints.LINE_START));
+            P3Panel.add(P3Label, getConstraints(4, 0, GridBagConstraints.LINE_START));
+            P3Panel.add(P3Name,getConstraints(4, 0, GridBagConstraints.LINE_START));
+            P3Panel.add(P3Output, getConstraints(4, 4, GridBagConstraints.LINE_START));
+            P3Panel.add(P3HP, getConstraints(4, 2, GridBagConstraints.LINE_START));
+            P3Panel.add(P3MP, getConstraints(4, 3, GridBagConstraints.LINE_START));
+            P3Panel.add(P3Role, getConstraints(4, 5, GridBagConstraints.LINE_START));
             P3Name.setText("Player 3:");
-          // mainPanel.add(new JLabel("Player Three:"), getConstraints(0, 1, GridBagConstraints.LINE_START));
+          // gmPanel.add(new JLabel("Player Three:"), getConstraints(0, 1, GridBagConstraints.LINE_START));
 
-          GMOutput.setText("JCRPG - DND Story Emulator\nSelect \"Next\" to continue.\nCODE CREATED BY:\nSHIVANI BILIMORIA\nNAM NGUYEN\nSARAVJOT SINGH\nJD DAVID\nCATALINA ESCANO\nMATT PHILIP\n"); //FINISH THIS
+            GMOutput.setText("JCRPG - DND Story Emulator\nSelect \"Next\" to continue.\n\nCODE CREATED BY:\nSHIVANI BILIMORIA\nNAM NGUYEN\nSARAVJOT SINGH\nJD DAVID\nCATALINA ESCANO\nMATT PHILIP\n"); //FINISH THIS
         
+
+            P1Panel.setBackground(Color.RED);
+            P2Panel.setBackground(Color.BLUE);
+            P3Panel.setBackground(Color.GREEN);
+            gmPanel.setBackground(Color.DARK_GRAY);
+
+
+            mainFrame.add(P1Panel);
+            mainFrame.add(P2Panel);
+            mainFrame.add(P3Panel);
+            mainFrame.add(gmPanel);
+
 
             //BUTTON PANEL SETUP
             JPanel buttonPanel = new JPanel();
@@ -212,14 +232,15 @@ public class LauncherGUI extends JFrame
             buttonPanel.add(nextButton);
             buttonPanel.add(resetButton);
             buttonPanel.add(quitButton);
-
-            add(buttonPanel, BorderLayout.SOUTH);
+            gmPanel.add(buttonPanel, BorderLayout.SOUTH);
+            buttonPanel.setBackground(Color.DARK_GRAY);
+            pack();
         }
 
         private GridBagConstraints getConstraints(int x, int y, int anchor)
             {
                 GridBagConstraints c = new GridBagConstraints();
-                c.insets = new Insets(8, 8, 0, 8);
+                c.insets = new Insets(10, 10, 1, 10);
                 c.gridx = x;
                 c.gridy = y;
                 c.anchor = anchor;
