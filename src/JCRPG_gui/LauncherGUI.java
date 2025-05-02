@@ -295,10 +295,10 @@ public class LauncherGUI extends JFrame
 
             GMOutput.setText(initText[textTurner]); //FINISH THIS
         
-            P1Panel.setBackground(Color.RED);
-            P2Panel.setBackground(Color.BLUE);
-            P3Panel.setBackground(Color.GREEN);
-            gmPanel.setBackground(Color.DARK_GRAY);
+            P1Panel.setBackground(new Color(251, 148, 196));
+            P2Panel.setBackground(new Color(218, 148, 251));
+            P3Panel.setBackground(new Color(117, 210, 241));
+            gmPanel.setBackground(new Color(42, 225, 70));
 
             mainFrame.add(P1Panel);
             mainFrame.add(P2Panel);
