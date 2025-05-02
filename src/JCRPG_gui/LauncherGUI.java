@@ -1,10 +1,20 @@
 package JCRPG_gui;
 import JCPRG_code.GM;
 
+
+
 import com.sun.jdi.connect.LaunchingConnector;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.io.InputStream;
+
 import javax.naming.InterruptedNamingException;
+import javax.print.DocFlavor.URL;
+
+import static javax.print.attribute.standard.MediaSize.Engineering.C;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
@@ -13,6 +23,10 @@ public class LauncherGUI extends JFrame
 {
     JCRPG_code.GM gameMaster = new JCRPG_code.GM();
     JCRPG_code.Player GUIPObj[] = new JCRPG_code.Player[3];
+    int textTurner = 0;
+    String[] initText = {"JCRPG - DND Story Emulator\nSelect \"Next\" to continue.\n\nCODE CREATED BY:\nSHIVANI BILIMORIA\nNAM NGUYEN\nSARAVJOT SINGH\nJD DAVID\nCATALINA ESCANO\nMATT PHILIP\n",
+                            "AVAILABLE CLASSES:\n{1} - Wizard: low health, low defense, very high damage potential.\nThe ultimate glass Cannon\n\n{2} - Barbarian: High health, high defense, medium damage.\n Hearty and hefty, packing a staggering punch\n\n" + 
+                        "{3} - Bard: All-arounder build, medium-level damage possibilites with middle-of-the-road health and defense. Perfect for a neutral adventurer"};
     
         private JButton nextButton;
         private JButton quitButton;
@@ -29,6 +43,11 @@ public class LauncherGUI extends JFrame
         private JLabel P1Label;
         private JLabel P2Label;
         private JLabel P3Label;
+
+        // private JLabel P1bckgnd;
+        // private JLabel P2bckgnd;
+        // private JLabel P3bckgnd;
+        // private JLabel GMbckgnd;
 
         private JTextField P1HP;
         private JTextField P2HP;
@@ -56,6 +75,7 @@ public class LauncherGUI extends JFrame
         JPanel P2Panel = new JPanel();
         JPanel P3Panel = new JPanel();
 
+        
         public LauncherGUI()
         {
             try {UIManager.setLookAndFeel(
@@ -65,19 +85,82 @@ public class LauncherGUI extends JFrame
                 System.out.println(e);
             }
 
+
             initGUI();
-            mainFrame.setSize(500, 650); //DO NOT CHANGE PLEASE - MP (PS. OR ATLEAST COPY AND COMMENT ONE OUT AND CHANGE THE OTHER)
+            mainFrame.setSize(500, 660); //DO NOT CHANGE PLEASE - MP (PS. OR ATLEAST COPY AND COMMENT ONE OUT AND CHANGE THE OTHER)
             mainFrame.setLayout(new FlowLayout());
             mainFrame.setTitle("JCRPG - Adventure Emulator");
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             mainFrame.setLocationByPlatform(true);
-            //mainFrame.setLayout(new GridBagLayout());
+            mainFrame.getContentPane().setBackground(Color.BLACK);
+
             pack();
+            mainFrame.setResizable(false);
             mainFrame.setVisible(true);
         }
 
         private void initGUI()
         {
+            // P1bckgnd = new JLabel();
+            // P2bckgnd = new JLabel();
+            // P3bckgnd = new JLabel();
+            // GMbckgnd = new JLabel();
+
+            // try {
+            //     BufferedImage imgRead = ImageIO.read(new File("src\\JCRPG_gui\\backgroundImages\\redBCKGND.jpg"));
+            //     ImageIcon P1Icon = new ImageIcon(imgRead);
+            //     P1bckgnd.setIcon(P1Icon);
+
+            //     P1Panel.super.paintComponents(imgRead);
+            //     P1Panel.add(P1bckgnd);
+
+ 
+            // } catch (IOException | IllegalArgumentException e) {
+            //     // TODO Auto-generated catch block
+            //     e.printStackTrace();
+            //     P1Panel.setBackground(Color.RED);
+            // }
+
+            // try {
+            //     BufferedImage imgRead = ImageIO.read(new File("src\\JCRPG_gui\\backgroundImages\\bluBCKGND.jpg"));
+            //     ImageIcon P2Icon = new ImageIcon(imgRead);
+            //     P2bckgnd.setIcon(P2Icon);
+            //     P2Panel.add(P2bckgnd);
+
+ 
+            // } catch (IOException | IllegalArgumentException e) {
+            //     // TODO Auto-generated catch block
+            //     e.printStackTrace();
+            //     P2Panel.setBackground(Color.BLUE);
+            // }
+
+            // try {
+            //     BufferedImage imgRead = ImageIO.read(new File("src\\JCRPG_gui\\backgroundImages\\grnBCKGND.jpg"));
+            //     ImageIcon P3Icon = new ImageIcon(imgRead);
+            //     P3bckgnd.setIcon(P3Icon);
+            //     P3Panel.add(P3bckgnd);
+
+ 
+            // } catch (IOException | IllegalArgumentException e) {
+            //     // TODO Auto-generated catch block
+            //     e.printStackTrace();
+            //     P3Panel.setBackground(Color.GREEN);
+            // }
+
+            // try {
+            //     BufferedImage imgRead = ImageIO.read(new File("src\\JCRPG_gui\\backgroundImages\\gmBCKGND.jpg"));
+            //     ImageIcon gmIcon = new ImageIcon(imgRead);
+            //     GMbckgnd.setIcon(gmIcon);
+            //     gmPanel.add(GMbckgnd);
+
+ 
+            // } catch (IOException | IllegalArgumentException e) {
+            //     // TODO Auto-generated catch block
+            //     e.printStackTrace();
+            //     gmPanel.setBackground(Color.DARK_GRAY);
+            // }
+
+
             nextButton = new JButton("Next");
             nextButton.addActionListener((ActionEven) -> {buttonListener(1); });
 
@@ -144,7 +227,7 @@ public class LauncherGUI extends JFrame
             P1Panel.setPreferredSize(dim);
             P2Panel.setPreferredSize(dim);
             P3Panel.setPreferredSize(dim);
-            gmPanel.setPreferredSize(new Dimension(450, 250));
+            gmPanel.setPreferredSize(new Dimension(455, 400));
             //setSize(dim);
 
             P1Label.setPreferredSize(new Dimension(100, 20));
@@ -163,8 +246,8 @@ public class LauncherGUI extends JFrame
             P2Output.setPreferredSize(new Dimension(50, 30));
             P3Output.setPreferredSize(new Dimension(50, 30));
 
-            GMOutput.setPreferredSize(new Dimension(300, 200));
-            GMScroll.setPreferredSize(new Dimension(30, 200));
+            GMOutput.setPreferredSize(new Dimension(300, 350));
+            GMScroll.setPreferredSize(new Dimension(30, 350));
 
             // //MAIN PANEL SETUP
             // JPanel gmPanel = new JPanel();
@@ -210,14 +293,12 @@ public class LauncherGUI extends JFrame
             P3Name.setText("Player 3:");
           // gmPanel.add(new JLabel("Player Three:"), getConstraints(0, 1, GridBagConstraints.LINE_START));
 
-            GMOutput.setText("JCRPG - DND Story Emulator\nSelect \"Next\" to continue.\n\nCODE CREATED BY:\nSHIVANI BILIMORIA\nNAM NGUYEN\nSARAVJOT SINGH\nJD DAVID\nCATALINA ESCANO\nMATT PHILIP\n"); //FINISH THIS
+            GMOutput.setText(initText[textTurner]); //FINISH THIS
         
-
             P1Panel.setBackground(Color.RED);
             P2Panel.setBackground(Color.BLUE);
             P3Panel.setBackground(Color.GREEN);
             gmPanel.setBackground(Color.DARK_GRAY);
-
 
             mainFrame.add(P1Panel);
             mainFrame.add(P2Panel);
@@ -253,14 +334,52 @@ public class LauncherGUI extends JFrame
             switch (Btype)
             {
                 case 1: //Initiate next step through code in GM class
+                        if (textTurner < 1)
+                        {
+                            textTurner++;
+                            GMOutput.setText(initText[textTurner]);
+                        }
                         break;
                 case 2: 
-                    try {
-                        gameMaster.Initialize();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                        P1Role.setEnabled(true);
+                        P1Role.setVisible(true);
+                        P1HP.setText("");
+                        P1MP.setText("");
+                        P1Label.setVisible(false);
+                        P1Label.setText("");
+                        P1Output.setText("");
+                        P1Output.setEditable(true);
+                        P1Name.setText("Player 1:");
+                        P1Name.setVisible(true);
+                        P1Name.setEditable(true);
+
+                        P2Role.setEnabled(true);
+                        P2Role.setVisible(true);
+                        P2HP.setText("");
+                        P2MP.setText("");
+                        P2Label.setVisible(false);
+                        P2Label.setText("");
+                        P2Output.setText("");
+                        P2Output.setEditable(true);
+                        P2Name.setText("Player 2:");
+                        P2Name.setVisible(true);
+                        P2Name.setEditable(true);
+
+                        P3Role.setEnabled(true);
+                        P3Role.setVisible(true);
+                        P3HP.setText("");
+                        P3MP.setText("");
+                        P3Label.setVisible(false);
+                        P3Label.setText("");
+                        P3Output.setText("");
+                        P3Output.setEditable(true);
+                        P3Name.setText("Player 3:");
+                        P3Name.setVisible(true);
+                        P3Name.setEditable(true);
+
+                        textTurner = 0;
+                        GMOutput.setText(initText[0]);
+                        try {gameMaster.Initialize();} catch (IOException ex) {}
                         break;
                 case 3: //Shut everything down
                         System.exit(0);
@@ -278,6 +397,7 @@ public class LauncherGUI extends JFrame
                         P1MP.setText(Integer.toString(GUIPObj[0].mp));
                         P1Role.setVisible(false);
                         P1Role.setEnabled(false);
+                        GMOutput.setText("WE BE TESTING");
                         break;
                 case 5:
                         //PLAYER 1 IS INDEX 0
