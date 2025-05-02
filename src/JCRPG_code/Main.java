@@ -19,7 +19,7 @@ public class Main{
         } catch (IOException ex) {
         }
 
-        Player player = new Player(1);
+        Player player = new Player(0);
         Monster monster = new Monster(3);
         System.out.println((gameMaster.combat(player, monster)));
     }

@@ -1,9 +1,10 @@
 package JCRPG_code;
 
-class Monster extends Entity
+public class Monster extends Entity
 {
-    public Monster(int Mtype)
+    Monster(int Mtype)
     {
+        System.out.println(Mtype);
         switch (Mtype)
         {
             //NAME: To be printed in the GUI
@@ -16,44 +17,56 @@ class Monster extends Entity
                 //fill with stats
                 name = "Lizard Man";
                 hp = 40;
+                maxHP = hp;
                 mp = 0;
-                dNum = 3;
-                dType = 8;
+                dNum = 4;
+                dType = 5;
+                break;
             case 1:
                 //Air Elemental
                 name = "Air Elemental";
                 hp = 60;
+                maxHP = hp;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
+                break;
             case 2:
                 //Fire Elemental
                 name = "Fire Elemental";
                 hp = 60;
+                maxHP = hp;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
+                break;
             case 3:
                 //Earth Elemental
                 name = "Earth Elemental";
                 hp = 60;
+                maxHP = hp;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
+                break;
             case 4:
                 //Water Elemental
                 name = "Water Elemental";
                 hp = 60;
+                maxHP = hp;
                 mp = 0;
                 dNum = 4;
-                dType = 4;
+                dType = 8;
+                break;
             case 5:
                 //Alchemist
                 name = "Royal Alchemist";
                 hp = 80;
+                maxHP = hp;
                 mp = 0;
-                dNum = 2;
+                dNum = 3;
                 dType = 20;
+                break;
         }
     }
 }
