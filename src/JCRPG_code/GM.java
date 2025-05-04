@@ -1,11 +1,9 @@
 package JCRPG_code;
-
 import JCRPG_gui.LauncherGUI;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.awt.*;
-import javax.swing.*;
+
 
 @SuppressWarnings("unused")
 public class GM {
@@ -20,6 +18,7 @@ public class GM {
     String[] textFileLines = new String[txtLineCount]; //This array size will need to be re-sized to the total number of individual
     //Text lines in the file it's reading from - See the note above there PObj are initialized - MP
                 
+    static boolean GUIflag = true;
     String GMOutput = ""; //Will hold text when text files are implemented
     Player[] PObj = new Player[3]; //Holds Player instances
     Monster[] MObj = new Monster[6]; // Holds Monster instances
@@ -41,18 +40,18 @@ public class GM {
 
     //     return -1; //Flag value: Code somehow fell out of if statement
     // }
-    void Initialize() throws IOException //IOException allows the file garbage to function without complaining
+    public void Initialize() throws IOException //IOException allows the file garbage to function without complaining
     {
         System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS"); //Only purpose is to prove it was called - MP
-        
-        new LauncherGUI();
+        GUIflag = launchGUI(GUIflag);
+
         //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
         //Arrays require fixed sizes, adding beyond the pre-established size will required a whole slew of new functions just to resize them - MP
-        for (int y = 0; y < 3; y++)
-        {
-            PObj[y] = new Player(y);
-            System.out.println(PObj[y].hp);
-        }
+        // for (int y = 0; y < 3; y++)
+        // {
+        //     PObj[y] = new Player(y);
+        //     System.out.println(PObj[y].hp);
+        // }
 
         for (int x = 0; x < 6; x++)
         {
@@ -88,6 +87,24 @@ public class GM {
 
         // System.out.println(textFileLines[0]);
         // System.out.println(textFileLines[1]); USED FOR TESTING
+    }
+
+    private boolean launchGUI(boolean GUIflag)
+    {
+        if (GUIflag)
+        {
+            LauncherGUI mainGUI = new LauncherGUI();
+            GUIflag = false;
+        }
+        return GUIflag;
+    }
+
+    public Player[] playerInit(int pRole, int pIndex, String pName)
+    {
+        PObj[pIndex] = new Player(pRole);
+        PObj[pIndex].name = pName;
+
+        return PObj;
     }
 
 

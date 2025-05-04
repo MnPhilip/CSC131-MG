@@ -1,9 +1,9 @@
 package JCRPG_code;
 public class Entity extends GM{
-    public int hp;
-    public int maxHP;
+    public Integer hp;
+    public Integer maxHP;
     public int def;
-    public int mp;
+    public Integer mp;
     public int dNum;
     public int dType;
     public String name;
