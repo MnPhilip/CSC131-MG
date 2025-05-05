@@ -1,0 +1,3 @@
+10: Suspicious Dirt
+You dig carefully and uncover a teleportation rune etched into stone — it's active!
+→ Go to 16: Use Rune to Escape
