@@ -1,0 +1,11 @@
+1: Front Yard — Outside the Alchemist’s House
+You stand before the ivy-covered, ominous stone house of the famed but mysterious alchemist. Rumors of wealth and strange magical experiments drew you here. You consider your method of entry.
+Options:
+Break the window — (Noisy but fast)
+ The glass shatters with a loud crash. Almost instantly, a magical alarm blares — glowing runes light up along the wall.
+ → Go to 4: Elemental Encounter
+
+
+Pick the lock — (Silent and skilled)
+ With deft fingers, you quietly click the lock open. The door swings in silently. No alarms, no sign of resistance.
+ → Go to 2: Living Room
