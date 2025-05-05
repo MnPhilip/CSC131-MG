@@ -1,0 +1,7 @@
+14: Secret Door
+You find a hidden stone slab. With effort, you pry it open.
+Options:
+Enter the hidden vault → Go to 15
+
+
+Wander into the Library → Go to 3 (Death)
