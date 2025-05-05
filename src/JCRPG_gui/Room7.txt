@@ -1,0 +1,8 @@
+7: Attempt to Break In
+You hammer and pry at the vault.
+Outcomes:
+Fail — The vault triggers a trap. You are teleported back to Room 4, where the Fire Elemental awaits.
+
+
+Succeed — You break through by brute force. You loot the contents, but the Alchemist arrives just as you’re finishing.
+ → Go to 8
