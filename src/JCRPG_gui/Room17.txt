@@ -1,0 +1,16 @@
+17: Lizardman Appears
+A muscular, scaly guardian towers over you.
+Options:
+Talk your way out
+ You appeal to the lizardman’s honor or offer a bribe.
+ → Go to 18
+
+
+Fight and win
+ You defeat the lizardman in a fierce melee.
+ → Go to 19
+
+
+Fail
+ He slays you.
+ → Go to 13: Death
