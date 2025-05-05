@@ -1,0 +1,7 @@
+2: Living Room of the Alchemist's House
+The air inside is musty and filled with the scent of herbs and chemicals. Dim magical lights float near the ceiling. You spot two doors: one marked with arcane symbols, the other leading into a room lined with bookshelves.
+Options:
+Enter the Vault Room → Go to 5
+
+
+Enter the Library → Go to 3
