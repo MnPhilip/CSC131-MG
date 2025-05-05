@@ -1,0 +1,11 @@
+6: Attempt to Crack the Code
+You carefully examine the lock and begin solving the alchemical cipher.
+Outcomes:
+Fail — A hiss sounds behind you. A Lizardman guard steps from the shadows.
+ → Go to 17
+
+
+Succeed — The vault creaks open, revealing rare ingredients, gold, enchanted scrolls. As you gather your loot, the Alchemist appears behind you.
+ → Go to 8
+
+
