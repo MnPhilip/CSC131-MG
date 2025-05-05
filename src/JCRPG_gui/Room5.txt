@@ -1,0 +1,7 @@
+5: Vault Room
+A grand iron vault sits in the center, inscribed with magical wards and mechanical locks. You can try to crack the code or force it open.
+Options:
+Crack the code → Go to 6
+
+
+Break it open → Go to 7
