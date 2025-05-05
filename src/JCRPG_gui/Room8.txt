@@ -1,0 +1,13 @@
+8: Alchemist Appears
+The room grows cold. The alchemist, cloaked in shadows and carrying a wand glowing with dangerous energy, glares at you.
+Options:
+Escape quickly
+ You dodge a spell and bolt out with your loot.
+ → Go to 11: Escape! Happy Ending
+
+
+Fight the Alchemist
+ You draw your weapon, ready for a dangerous magical duel.
+ → Go to 12
+
+
