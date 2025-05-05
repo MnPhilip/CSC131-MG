@@ -1,0 +1,9 @@
+9: Garden
+You emerge into an overgrown garden. Vines cover ancient statues, and glowing plants sway gently.
+Options:
+Investigate suspicious patch of dirt → Go to 10
+
+
+Search for other exits or hidden areas → Go to 14
+
+
