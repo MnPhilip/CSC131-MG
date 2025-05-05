@@ -1,0 +1,4 @@
+11: Escape!
+You flee the house, loot in hand, breathless but victorious. The strange manor fades behind you in the night.
+Outcome:
+ Happy Ending – Success!
