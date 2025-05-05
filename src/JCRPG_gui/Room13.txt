@@ -1,0 +1,3 @@
+13: Death
+The alchemist’s spell consumes you.
+ Your journey ends here.
