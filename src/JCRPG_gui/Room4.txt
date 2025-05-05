@@ -1,0 +1,11 @@
+4: Encounter with Elemental
+From a cloud of smoke, a Fire Elemental emerges — a guardian bound by the house's security system. Its molten eyes blaze at you.
+Options:
+Fight the Elemental
+ After a hard-fought battle, you manage to defeat the elemental.
+ → Go to 5: Vault Room
+
+
+Sneak away toward the garden
+ Dodging the elemental's fiery wrath, you slip into the shadows and escape through a side door.
+ → Go to 9: Garden
