@@ -1,10 +1,12 @@
 package JCRPG_code;
 import JCRPG_gui.LauncherGUI;
+import JCRPG_gui.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.classfile.instruction.ThrowInstruction;
 import java.util.*;
 
-
+//PERSONAL BUILD
 @SuppressWarnings("unused")
 public class GM {
     //HAHAHHHAHHAHA
@@ -13,69 +15,75 @@ public class GM {
                 //HAHAHHHAHHAHA
                     //HAHAHHHAHHAHA
                     //for ttesting purposes
-    int txtLineCount = 999; //Flag value, replace with test file line count
-    int lineCounter = 0; //Counter for addressing specific indexes in the array, utilized in the while loop to read text lines from the file
-    String[] textFileLines = new String[txtLineCount]; //This array size will need to be re-sized to the total number of individual
+
+
+    
+    static int currTextIndex;
     //Text lines in the file it's reading from - See the note above there PObj are initialized - MP
-                
+    static String combatOutput;
+
+    String[] mapLoc = {"Intro", "Foyer", "Infinite Library", "Elemental's Alcove", "Vault Door", "Vault beyond the painting of the Alchemist", "Inside the vault after cracking it open", "Succesfully entering the vault",
+                        "Luscious Garden featuring an elaborate fountain whos 'liquid' tastes of asparagus", "In a corner of the garden, a patch of disturbed dirt", "of the basement after escaping the Guardian Elemental, but running into Ekmeros - Lizard-man champion", 
+                        "of the vault interior, after taking what you can, you watch as the Royal Alchemist arrives", "death at the hands of Royal Alchemist", "the garden, finding a hidden door", "the vault interior, discovering riches, magics, and relics of obscene wealth",
+                        "in the garden, digging up a patch of loose dirt", " failing to break into the vault, Ekmeros, Lizard-man Champion appears", " in the Foyer, Ekmeros, Lizard-man Champion, grows bored and saunters away", "Ekmeros, Lizard-man Champion Springs into battle"};
+    LauncherGUI mainGUI;
     static boolean GUIflag = true;
-    String GMOutput = ""; //Will hold text when text files are implemented
     Player[] PObj = new Player[3]; //Holds Player instances
     Monster[] MObj = new Monster[6]; // Holds Monster instances
 
     //POBJ: Array of all available player, 
     //VALUE: how much health is being removed (positive number) or added (negative number),
     //PLAYERINDEX: Number in array for which player is being affected
-    // int Update(Player Pobj[], int value, int playerIndex)
-    // {
-    //     Pobj[playerIndex].hp = Pobj[playerIndex].hp - value;
-    //     if (Pobj[playerIndex].hp <= 0)
-    //     {
-    //         return 1; //Player Died
-    //     }
-    //     else if (Pobj[playerIndex].hp > 0)
-    //     {
-    //         return 0; //Player is still alive
-    //     }
+    public Player[] playerUpdate()
+    {
+        return PObj;
+    }
 
     //     return -1; //Flag value: Code somehow fell out of if statement
     // }
     public void Initialize() throws IOException //IOException allows the file garbage to function without complaining
     {
-        System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS"); //Only purpose is to prove it was called - MP
-        GUIflag = launchGUI(GUIflag);
+        // playerInit(1,1, "Waldo");
+        // monsterInit();
+        // GPT gpt = new GPT("APIKEY");
+        // System.out.println(gpt.APIRunner(PObj[1].name, "Library", MObj[2].name, "Waldo summons the power of the sun to defeat " + MObj[2].name));
 
-        //FOR LOOPS ARE REQUIRED TO POPULATE MONSTER AND PLAYER
-        //Arrays require fixed sizes, adding beyond the pre-established size will required a whole slew of new functions just to resize them - MP
-        // for (int y = 0; y < 3; y++)
-        // {
-        //     PObj[y] = new Player(y);
-        //     System.out.println(PObj[y].hp);
-        // }
 
-        for (int x = 0; x < 6; x++)
-        {
-            MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
-            System.out.println(x);
-            System.out.println(MObj[x].hp);
-        }
-        
+
+        //System.out.println("SUCCESFULLY CALLED INIT IN GM CLASS:"); //Only purpose is to prove it was called - MP
+        //this.mainGUI = new LauncherGUI();
         //FOLLOWING CODE WILL CREATE READ-FILE OBJECTS FOR FUTURE TEXT FILES
         //Replace with folder-to-file path when they are created
-        Scanner scanFile = new Scanner(new File("C:\\Users\\xxunc\\Downloads\\CONTAINER REBOOT\\CSUS\\CSC 131\\CSC_131_Project\\CSC131-MG-main\\CSC131-MG-main\\src\\JCRPG_code\\test.txt")); //TO MAKE THIS FUNCTION:
-                                                                        //Right click "test.txt" and click "copy path"
-                                                                        //Then paste it between the quotation marks, KEEP THE QUOTATION MARKS 
 
-        while(scanFile.hasNextLine())
+
+        // Scanner scanFile = new Scanner(new File("src\\JCRPG_code\\test.txt")); //TO MAKE THIS FUNCTION:
+        //                                                                 //Right click "test.txt" and click "copy path"
+        //                                                                 //Then paste it between the quotation marks, KEEP THE QUOTATION MARKS 
+
+        // while(scanFile.hasNextLine())
+        // {
+        //     textFileLines[lineCounter] = scanFile.nextLine() + "\n";
+        //     //System.out.print(textFileLines[lineCounter]); //- USed for testing -MP
+
+        //     lineCounter++;
+        // }
+
+        // scanFile.close();
+
+        // for (int x = 0; textFileLines[x] != null; x++)
+        // {
+        //     System.out.println(textFileLines[x]);
+        // }
+        
+        if (GUIflag)
         {
-            textFileLines[lineCounter] = scanFile.nextLine() + "\n";
-            //System.out.print(textFileLines[lineCounter]); //- USed for testing -MP
-
-            lineCounter++;
+            this.mainGUI = new LauncherGUI();
+            GUIflag = false;
         }
-
-        scanFile.close();
-
+        else
+        {
+            System.out.print(GUIflag);
+        }
     ///////////////////////////////////////////////////////////////////////////////////////
         // Entity entity = new Entity(); USED FOR TESTING
         // entity.testFunc(PObj[0]);
@@ -89,31 +97,11 @@ public class GM {
         // System.out.println(textFileLines[1]); USED FOR TESTING
     }
 
-    private boolean launchGUI(boolean GUIflag)
-    {
-        if (GUIflag)
-        {
-            LauncherGUI mainGUI = new LauncherGUI();
-            GUIflag = false;
-        }
-        return GUIflag;
-    }
-
-    public Player[] playerInit(int pRole, int pIndex, String pName)
-    {
-        PObj[pIndex] = new Player(pRole);
-        PObj[pIndex].name = pName;
-
-        return PObj;
-    }
-
-
     void Prompt(int chap)
     {
         //TODO: Should Grab text from the GMTextArray and send it to the GUI for output
         //Code will use the chap integer to know which line to grab from the array
-        GMOutput = textFileLines[chap];
-        System.out.println(GMOutput);
+
         //TODO: GM needs to check the map index and see if a monster should be present, and 
         //present it to the player if there is 
 
@@ -131,13 +119,17 @@ public class GM {
     //stats significantly easier, PvP will not be implemented anyway so this works out
     int combat (Player player, Monster monster) //NOTE: (MP) - Changed return value to int, this way the combat can resolve with more outcomes than just a death
     {
-        System.out.println("SUCCESFULLY CALLED COMBAT\n");
+        //System.out.println("SUCCESFULLY CALLED COMBAT\n");
         RNG generate = new RNG(); //DO NOT MOVE TO TOP OF CLASS - WILL BREAK THE PROGRAM - MP
                                 //It's a little bit annoying but putting at the top causes a recursive overflow for some reason
         Entity creature = new Entity();
+        
+        GPTRUN gptRUN = new GPTRUN();
+        //GPT gpt = new GPT("APIKEY");
         int dmg, outcome;
         int plrCheck, monCheck; //Used to determine if the attack lands or is dodged
         boolean turn = true; //Monster always attacks first, meaning TRUE or turn = monster attacking, FALSE or !turn = Player attacking
+        combatOutput = "";
 
         //RETURN CODES:
         int playerDeath = 0; //Event that player dies in combat
@@ -146,11 +138,9 @@ public class GM {
         int playerEscape = 3; //Event that Player escapes combat to a new location
         int playerVictory = 4; //Event the player kills the Royal Alchemist and wins the game
 
-        do 
+        while (player.hp > 0 && monster.hp > 0)
         {
-            creature.testFunc(player);
-            creature.testFunc(monster);
-            System.out.println("\n");
+            //System.out.println("\n");
             //Add some way for player or monster to flee and return true if successful flee
             //DMG = determines the damage dealt from one entity to another
             dmg = (turn)? generate.diceRoll(monster.dType, monster.dNum) : generate.diceRoll(player.dType, player.dNum);
@@ -158,7 +148,7 @@ public class GM {
             plrCheck = generate.diceRoll(20, 1) + player.def; //Holds outome of player attack/defensive roll
             monCheck = generate.diceRoll(20, 1); //Holds outome of monster attack/defensive roll
 
-            System.out.println("Player: " + plrCheck + "  Monster: " + monCheck);
+            //System.out.println("Player: " + plrCheck + "  Monster: " + monCheck);
             
             int escapeCheck = -1; //Allows potential for the rolling entity to run away
             //outcome = used to determine what action the "defending" entity is taking (who ever is not attacking)
@@ -171,12 +161,20 @@ public class GM {
                 outcome = creature.HPset(player, dmg);
                 if (outcome == 0)
                 {
-                    System.out.println("The " + monster.name + " dealt " + dmg + " to " + player.name + ", ending their adventure");
+                    if (monster.name == "Lizard Man")
+                    {
+                        GUIChapUpdate(18, 0);
+                    }
+                    else
+                    {
+                        GUIChapUpdate(13, 0);
+                    }
+                    combatOutput += ("The " + monster.name + " dealt " + dmg + " to " + player.name + ", ending their adventure, ");
                     return playerDeath; //Player Died
                 }
                 else 
                 {
-                    System.out.println("The player took " + dmg + " damage, from the " + monster.name);
+                    combatOutput += (player.name + " took " + dmg + " damage, from the " + monster.name + ", ");
                     //TODO: Add call to GUI to update the players health being displayed, as well as display
                     //text to GUI window and not terminal
                 }
@@ -187,12 +185,12 @@ public class GM {
                     if (escapeCheck == 20 || escapeCheck >= 17) //These numbers are arbitrary we can make them more sophisticated later
                     {
                         //TODO: Add Code to check where the player is and what map indexes they can flee too
-                        System.out.println(player.name + " deftly escapes the " + monster.name + " and makes it into the "/*mapLocation.name*/);
+                        combatOutput += (player.name + " deftly escapes the " + monster.name + " and makes it into the " + gptRUN.mapDescUpdate(GUIChapUpdate(0, 1)));/*mapLocation.name*/
                         return playerEscape; // Player escaped to new location
                     }
                     else
                     {
-                        System.out.println(player.name + " dodged the attack from the " + monster.name);
+                        combatOutput += (player.name + " dodged the attack from the " + monster.name + ", ");
                     }
                 }
             else if(!turn && plrCheck >= monCheck) //If the player is attacking and rolls a higher check
@@ -200,26 +198,29 @@ public class GM {
                 outcome = creature.HPset(monster, dmg);
                 if (outcome == 0)
                 {
-                    System.out.println(player.name + " dealt " + dmg + " damage to kill the " + monster.name);
+                    combatOutput += (player.name + " dealt " + dmg + " damage to kill the " + monster.name + ", ");
+                    GUIChapUpdate(19, 0);
                     return monsterDeath; //Monster DIED
                 }
                 else
                 {
-                    System.out.println("The " + monster.name + " suffered " + dmg + " damage from " + player.name);
+                    combatOutput += ("The " + monster.name + " suffered " + dmg + " damage from " + player.name + ", ");
                     //TODO: Update to print to the GUI and not the terminal
                 }
             }
             else if (!turn && plrCheck < monCheck)
             { //THIS ESCAPE POSSIBILITITY IS ONLY AVAILABLE FOR LIZARD MAN, THE OTHER CREATURE CAN'T MOVE
                 escapeCheck = generate.diceRoll(20, 1);
-                if (monster.name.equals("Lizard Man") && escapeCheck >= 15)
+                if (monster.name.equals("Lizard Man") && escapeCheck >= 10)
                 {
-                    //TODO: Check where the lizard man is and what map indexes he can flee too
+                    // GPT.mapDescUpdate(monster.mapLoc);
+                    // monster.mapLoc = currTextIndex;
+                    combatOutput += ("With his adept footwork and crafty movements the lizard man gets away..., ");
                     return lizardEscape;
                 }
                 else
                 {
-                    System.out.println(monster.name + " avoided the attack from " + player.name);
+                    combatOutput += (monster.name + " avoided the attack from " + player.name + ", ");
                 }
             }
             
@@ -228,26 +229,120 @@ public class GM {
             //     //(turn)? Update(defender, dmg) : Update(attacker, dmg);
             //     //This bit was Added by JD I am unsure what it does but eventually this statement needs to be an assignment statement - MP
             // }
-
             turn = !turn;
-        } while (player.hp > 0 && monster.hp > 0);
+        }// while (player.hp > 0 && monster.hp > 0);
+
+        //System.out.println(combatOutput);
         if (player.hp <= 0)
         {
+            //combatOutput = player.name + " has already fallen...\n";
             return playerDeath; //PLAYER DIED
         }
         else if (monster.hp <= 0)
         {
+            //combatOutput = monster.name + " lay defeated on the ground, there is little else to be found here.\n";
             return monsterDeath; //monster DIED
         }
         return -1; //FLAG VALUE: Somehow fell out of loop without resolution
     }
-                
 
-    String resolve(String gmPrompt, String userPrompt, int response){
-        return "ERROR: CODE NOT COMPLETED ['RESOLVE' FUNC IN GM CLASS]"; //Will eventually be equipped to send/recieve data from GPT
-        //Input to GPT needs to be framed to construct a string using the GM prompt, user prompt, and the response typed in from the user in a way that 
-        //phrases the whole thing as a question essentially asking "How would you tie this prompt to the response to lead to this conclusion", while also
-        //requesting that GPT only send a short, useable response instead of an explanation so the value it returns can immediately be printed in the GUI
+    ////////////////GUI BASED FUNCTIONS BELOW//////////////////////////////////////
+
+    // boolean launchGUI(boolean GUIflag)
+    // {
+    //     //System.out.println(GUIflag);
+    //     if (GUIflag)
+    //     {
+    //         GM.this.mainGUI = new LauncherGUI();
+    //         GUIflag = false;
+    //     }
+    //     return GUIflag;
+    // }
+
+    public Player[] playerInit(int pRole, int pIndex, String pName)
+    {
+        PObj[pIndex] = new Player(pRole);
+        PObj[pIndex].name = pName;
+
+        return PObj;
+    }
+
+    public Monster[] monsterInit()
+    {
+        for (int x = 0; x < 6; x++)
+        {
+            MObj[x] = new Monster(x); //Populates all monster array values with the applicable stats, these are always the same regardless of user input
+        }
+        return MObj;
+    }
+
+    public String combatInit(int player, int monster) //Allows GUI to call combat, specifically returns to 
+    {
+        //System.out.println(PObj[player] + " versus " +  MObj[monster].name);
+        int outCome = (combat(PObj[player], MObj[monster]));
+        String finalOutput;
+
+        System.out.println("THIS IS COMBATOUTPUT: " + combatOutput);
+
+        GPT gpt = new GPT("APIKEY");
+        switch(outCome)
+        {
+            case 0:
+                    combatOutput = combatOutput + "\n" + PObj[player].name + " was defeated by " + MObj[monster].name;
+                    finalOutput = gpt.APIRunner(PObj[player].name, mapLoc[4 - 1], MObj[monster].name, combatOutput);
+                    System.out.println(finalOutput);
+                    return finalOutput;
+            case 1:
+                    combatOutput = combatOutput + "\n" + MObj[monster].name + " was defeated by " + PObj[player].name;
+                    finalOutput = gpt.APIRunner(PObj[player].name, mapLoc[4 - 1], MObj[monster].name, combatOutput);
+                    System.out.println(finalOutput);
+                    return finalOutput;
+            case 2:
+                    combatOutput = combatOutput + "\n" + MObj[monster].name + " escapes to fight another day...";
+                    finalOutput = gpt.APIRunner(PObj[player].name, mapLoc[4 - 1], MObj[monster].name, combatOutput);
+                    System.out.println(finalOutput);
+                    return finalOutput;
+            case 3:
+                    combatOutput = combatOutput + "\n" + PObj[player].name + " escapes combat succesfully";
+                    finalOutput = gpt.APIRunner(PObj[player].name, mapLoc[4 - 1], MObj[monster].name, combatOutput);
+                    System.out.println(finalOutput);
+                    return finalOutput;
+            case 4:
+                    combatOutput = combatOutput + "\n" + PObj[player].name + " strikes down the Royal Alchemist!";
+                    finalOutput = gpt.APIRunner(PObj[player].name, mapLoc[4 - 1], MObj[monster].name, combatOutput);
+                    System.out.println(finalOutput);
+                    return finalOutput;
+        }
+        return combatOutput;
+    }
+         
+
+    public String GUIGMUpdate(int currChap)
+    {   
+        GPTRUN GPTrun = new GPTRUN();
+        return GPTrun.mapDescUpdate(currChap);
+
+        //return "ERROR: CODE NOT COMPLETED ['RESOLVE' FUNC IN GM CLASS]"; //Will eventually be equipped to send/recieve data from GPT
+    }
+
+    public int GUIChapUpdate(int currIndex, int Status)
+    {
+        if (Status == 0)
+        {
+            currTextIndex = currIndex;
+            //System.out.println(currTextIndex);
+            if (currTextIndex == 9)
+            {
+                
+            }
+            return 0;
+        }
+        else if (Status == 1)
+        {
+            //System.out.println(currTextIndex);
+            return currTextIndex;
+        }
+        return -1;
     }
 
 }

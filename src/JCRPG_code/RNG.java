@@ -1,7 +1,7 @@
 package JCRPG_code;
 import java.util.Random;
 
-public class RNG //extends GM
+public class RNG extends GM
 {
     //dx is number of sides on dice
     //amt is number of dice

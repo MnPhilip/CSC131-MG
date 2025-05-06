@@ -7,6 +7,7 @@ public class Entity extends GM{
     public int dNum;
     public int dType;
     public String name;
+    public Integer mapLoc;
     public int HPset(Entity currCreature, int HPlost)
     {
         currCreature.hp = currCreature.hp - HPlost;

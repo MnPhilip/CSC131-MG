@@ -4,7 +4,6 @@ public class Monster extends Entity
 {
     Monster(int Mtype)
     {
-        System.out.println(Mtype);
         switch (Mtype)
         {
             //NAME: To be printed in the GUI
@@ -21,6 +20,8 @@ public class Monster extends Entity
                 mp = 0;
                 dNum = 4;
                 dType = 5;
+                RNG generate = new RNG();
+                //mapLoc = generate.diceRoll(4, 1);
                 break;
             case 1:
                 //Air Elemental

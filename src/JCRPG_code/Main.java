@@ -11,16 +11,14 @@ public class Main{
 
         System.out.println("PROGRAM STARTED SUCCESSFULLY");
 
-        int tester = generate.diceRoll(4, 4);
-        System.out.println("RNG TEST : " + tester);
+        // int tester = generate.diceRoll(4, 4);
+        // System.out.println("RNG TEST : " + tester);
 
         try {
             gameMaster.Initialize();
         } catch (IOException ex) {
         }
-
-        Player player = new Player(0);
-        Monster monster = new Monster(3);
-        System.out.println((gameMaster.combat(player, monster)));
     }
 } 
+
+//\src\JCRPG_code\
