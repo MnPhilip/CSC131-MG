@@ -1,5 +1,7 @@
 package JCRPG_gui;
-import JCPRG_code.GM;
+
+//import JCPRG_code.GM;
+import JCRPG_code.GM.*;
 
 
 
@@ -15,6 +17,7 @@ import javax.naming.InterruptedNamingException;
 import javax.print.DocFlavor.URL;
 
 import static javax.print.attribute.standard.MediaSize.Engineering.C;
+import javax.print.attribute.standard.OutputBin;
 import javax.swing.*;
 import static javax.swing.SwingConstants.CENTER;
 
@@ -23,11 +26,19 @@ import static javax.swing.SwingConstants.CENTER;
 public class LauncherGUI extends JFrame
 {
     JCRPG_code.GM gameMaster = new JCRPG_code.GM();
+    JCRPG_code.GPTRUN GPTrun = new JCRPG_code.GPTRUN();
     JCRPG_code.Player GUIPObj[] = new JCRPG_code.Player[3];
-    int textTurner = 0;
-    String[] initText = {"JCRPG - DND Story Emulator\nSelect \"Next\" to continue.\n\nCODE CREATED BY:\nSHIVANI BILIMORIA\nNAM NGUYEN\nSARAVJOT SINGH\nJD DAVID\nCATALINA ESCANO\nMATT PHILIP\n",
+    JCRPG_code.Monster GUIMObj[] = new JCRPG_code.Monster[6];
+
+    int player;
+    int monster;
+    int[] PlayerChap = {0, 0, 0};
+    String combatProceeding = "";
+    
+    int chapIndex = 0;
+    String[] GMTEXTBANK = {"JCRPG - DND Story Emulator\nSelect \"Next\" to continue.\n\nCODE CREATED BY:\nSHIVANI BILIMORIA\nNAM NGUYEN\nSARAVJOT SINGH\nJD DAVID\nCATALINA ESCANO\nMATT PHILIP\n",
                             "AVAILABLE CLASSES:\n{1} - Wizard: low health, low defense, very high damage potential.\nThe ultimate glass Cannon\n\n{2} - Barbarian: High health, high defense, medium damage.\n Hearty and hefty, packing a staggering punch\n\n" + 
-                        "{3} - Bard: All-arounder build, medium-level damage possibilites with middle-of-the-road health and defense. Perfect for a neutral adventurer"};
+                        "{3} - Bard: All-arounder build, medium-level damage possibilites with middle-of-the-road health and defense. Perfect for a neutral adventurer\n"};
     
         private JButton nextButton;
         private JButton quitButton;
@@ -58,9 +69,9 @@ public class LauncherGUI extends JFrame
         private JTextField P2MP;
         private JTextField P3MP;
 
-        private JTextField P1Output;
-        private JTextField P2Output;
-        private JTextField P3Output;
+        private JTextArea P1Output;
+        private JTextArea P2Output;
+        private JTextArea P3Output;
 
         // private JScrollPane P1Scroll;
         // private JScrollPane P2Scroll;
@@ -76,6 +87,11 @@ public class LauncherGUI extends JFrame
         JPanel P2Panel = new JPanel();
         JPanel P3Panel = new JPanel();
 
+        Dimension panelDim = new Dimension(150, 200);
+        Dimension labelDim = new Dimension (75, 20);
+        Dimension statDim = new Dimension(50, 30);
+        Dimension outputDim = new Dimension(50, 30); 
+
         
         public LauncherGUI()
         {
@@ -86,7 +102,6 @@ public class LauncherGUI extends JFrame
                 System.out.println(e);
             }
 
-
             initGUI();
             mainFrame.setSize(500, 660); //DO NOT CHANGE PLEASE - MP (PS. OR ATLEAST COPY AND COMMENT ONE OUT AND CHANGE THE OTHER)
             mainFrame.setLayout(new FlowLayout());
@@ -96,7 +111,7 @@ public class LauncherGUI extends JFrame
             mainFrame.getContentPane().setBackground(Color.BLACK);
 
             pack();
-            mainFrame.setResizable(false);
+            //mainFrame.setResizable(false);
             mainFrame.setVisible(true);
         }
 
@@ -212,18 +227,25 @@ public class LauncherGUI extends JFrame
             P1MP = new JTextField();
             P2MP = new JTextField();
             P3MP = new JTextField();
-            P1Output = new JTextField();
-            P2Output = new JTextField();
-            P3Output = new JTextField();
+            P1Output = new JTextArea();
+            P2Output = new JTextArea();
+            P3Output = new JTextArea();
             P1HP.setEditable(false);
             P2HP.setEditable(false);
             P3HP.setEditable(false);
             P1MP.setEditable(false);
             P2MP.setEditable(false);
             P3MP.setEditable(false);
+
             P1Output.setEditable(true);
+            P1Output.setLineWrap(true);
+            P1Output.setWrapStyleWord(true);
             P2Output.setEditable(true);
+            P2Output.setLineWrap(true);
+            P2Output.setWrapStyleWord(true);
             P3Output.setEditable(true);
+            P3Output.setLineWrap(true);
+            P3Output.setWrapStyleWord(true);
 
             GMOutput = new JTextArea();
             GMOutput.setEditable(false);
@@ -234,32 +256,38 @@ public class LauncherGUI extends JFrame
             GMName.setOpaque(true);
             GMName.setText("GM:");
             GMName.setBackground(Color.gray);
-            GMScroll = new JScrollPane(GMOutput, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+            GMScroll = new JScrollPane(GMOutput);
+            GMScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             GMScroll.setVisible(true);
 
-            Dimension dim = new Dimension(150, 200);
+            // GMScroll.setBorder(
+            // BorderFactory.createCompoundBorder(
+            //     BorderFactory.createCompoundBorder(
+            //                     BorderFactory.createTitledBorder("Plain Text"),
+            //                     BorderFactory.createEmptyBorder(5,5,5,5)),
+            //     GMScroll.getBorder()));
 
-            P1Panel.setPreferredSize(dim);
-            P2Panel.setPreferredSize(dim);
-            P3Panel.setPreferredSize(dim);
-            gmPanel.setPreferredSize(new Dimension(455, 400));
+            P1Panel.setPreferredSize(panelDim);
+            P2Panel.setPreferredSize(panelDim);
+            P3Panel.setPreferredSize(panelDim);
+            gmPanel.setPreferredSize(new Dimension(500, 660));
             //setSize(dim);
 
-            P1Label.setPreferredSize(new Dimension(75, 20));
-            P2Label.setPreferredSize(new Dimension(75, 20));
-            P3Label.setPreferredSize(new Dimension(75, 20));
+            P1Label.setPreferredSize(labelDim);
+            P2Label.setPreferredSize(labelDim);
+            P3Label.setPreferredSize(labelDim);
 
-            P1HP.setPreferredSize(new Dimension(50, 30));
-            P2HP.setPreferredSize(new Dimension(50, 30));
-            P3HP.setPreferredSize(new Dimension(50, 30));
+            P1HP.setPreferredSize(statDim);
+            P2HP.setPreferredSize(statDim);
+            P3HP.setPreferredSize(statDim);
 
-            P1MP.setPreferredSize(new Dimension(50, 30));
-            P2MP.setPreferredSize(new Dimension(50, 30));
-            P3MP.setPreferredSize(new Dimension(50, 30));
+            P1MP.setPreferredSize(statDim);
+            P2MP.setPreferredSize(statDim);
+            P3MP.setPreferredSize(statDim);
 
-            P1Output.setPreferredSize(new Dimension(50, 30));
-            P2Output.setPreferredSize(new Dimension(50, 30));
-            P3Output.setPreferredSize(new Dimension(50, 30));
+            P1Output.setPreferredSize(outputDim);
+            P2Output.setPreferredSize(outputDim);
+            P3Output.setPreferredSize(outputDim);
 
             GMName.setPreferredSize(new Dimension(30, 20));
             GMOutput.setPreferredSize(new Dimension(300, 350));
@@ -270,6 +298,7 @@ public class LauncherGUI extends JFrame
             // gmPanel.setLayout(new GridBagLayout());
 
             gmPanel.setLayout(new FlowLayout());
+            //gmPanel.setLayout(new GridBagLayout());
             P1Panel.setLayout(new GridBagLayout());
             P2Panel.setLayout(new GridBagLayout());
             P3Panel.setLayout(new GridBagLayout());
@@ -280,7 +309,10 @@ public class LauncherGUI extends JFrame
             // gmPanel.add(GMScroll, getConstraints(3, 8, GridBagConstraints.LINE_START));
             gmPanel.add(GMName, new FlowLayout(FlowLayout.CENTER));
             gmPanel.add(GMOutput, new FlowLayout(FlowLayout.CENTER));
-            gmPanel.add(GMScroll, new FlowLayout(FlowLayout.CENTER));
+            gmPanel.add(GMScroll, new FlowLayout(FlowLayout.LEFT));
+            // gmPanel.add(GMOutput, BorderLayout.CENTER);
+            // gmPanel.add(GMName, BorderLayout.BEFORE_FIRST_LINE);
+            // gmPanel.add(GMScroll, BorderLayout.EAST);
             
             P1Panel.add(P1Label, getConstraints(0, 0, GridBagConstraints.CENTER));
             P1Panel.add(P1Name, getConstraints(0, 0, GridBagConstraints.CENTER));
@@ -309,12 +341,12 @@ public class LauncherGUI extends JFrame
             P3Name.setText("Player 3:");
           // gmPanel.add(new JLabel("Player Three:"), getConstraints(0, 1, GridBagConstraints.LINE_START));
 
-            GMOutput.setText(initText[textTurner]); //FINISH THIS
+            GMOutput.setText(GMTEXTBANK[chapIndex]); //FINISH THIS
         
-            P1Panel.setBackground(new Color(251, 148, 196));
-            P2Panel.setBackground(new Color(218, 148, 251));
-            P3Panel.setBackground(new Color(117, 210, 241));
-            gmPanel.setBackground(new Color(42, 225, 70));
+            P1Panel.setBackground(new Color(135, 18, 22));
+            P2Panel.setBackground(new Color(28, 32, 118));
+            P3Panel.setBackground(new Color(93, 0, 105));
+            gmPanel.setBackground(Color.DARK_GRAY);
 
             mainFrame.add(P1Panel);
             mainFrame.add(P2Panel);
@@ -347,13 +379,47 @@ public class LauncherGUI extends JFrame
         private void buttonListener(int Btype)
         {
             int pRole;
+            int z = 0;
+            JCRPG_code.RNG generate = new JCRPG_code.RNG();
             switch (Btype)
             {
                 case 1: //Initiate next step through code in GM class
-                        if (textTurner < 1)
+                        if (chapIndex < 1)
                         {
-                            textTurner++;
-                            GMOutput.setText(initText[textTurner]);
+                            chapIndex++;
+                            GMOutput.setText(GMTEXTBANK[chapIndex]);
+
+                            GUIMObj = gameMaster.monsterInit();
+                        }        
+                        else 
+                        {
+                            GMOutput.setText(grabGMOutput(chapIndex));
+                            chapIndex = gameMaster.GUIChapUpdate(chapIndex, 1);
+                            for (z = 0; z < 3; z++)
+                            {
+                                if (chapIndex == 3)
+                                {
+                                    playerOutput(z, "Lost within the endless labyrinth ");
+                                }
+                                else if (chapIndex == 4)
+                                {
+                                    combatOutsource(z, generate.diceRoll(4, 1));
+                                }
+                                else if (chapIndex == 9)
+                                {
+                                    playerOutput(z, "Refreshed by the fountains...oddly colored contents, " + GUIPObj[z].name + "'s health is replenished!");
+                                }
+                                else if (chapIndex == 12)
+                                {
+                                    combatOutsource(z, 5);
+                                }
+                                else if (chapIndex == 19)
+                                {
+                                    combatOutsource(z, 0);
+
+                                }
+                            }
+                            GUIPObj = gameMaster.playerUpdate();
                         }
                         break;
                 case 2: 
@@ -393,10 +459,14 @@ public class LauncherGUI extends JFrame
                         P3Name.setVisible(true);
                         P3Name.setEditable(true);
 
-                        textTurner = 0;
-                        GMOutput.setText(initText[0]);
-                        try {gameMaster.Initialize();} catch (IOException ex) {}
-                        break;
+                        P1Output.setPreferredSize(outputDim);
+                        P2Output.setPreferredSize(outputDim);
+                        P3Output.setPreferredSize(outputDim);
+
+                        chapIndex = 0;
+                        GMOutput.setText(GMTEXTBANK[0]);
+                        // try {gameMaster.Initialize();} catch (IOException ex) {} no, instead used chapIndex as "chap" for chapter
+                        break; 
                 case 3: //Shut everything down
                         System.exit(0);
                         break;
@@ -405,43 +475,187 @@ public class LauncherGUI extends JFrame
                         P1Name.setEditable(false);
                         P1Name.setVisible(false);
                         P1Output.setEditable(false);
+                        P1Output.setPreferredSize(new Dimension(125, 60));
+                        P1Role.setVisible(false);
+                        P1Role.setEnabled(false);
+
+                        P1Role.setVisible(false);
+                        P1Role.setEnabled(false);
+
+                        
                         pRole = Integer.parseInt(P1Output.getText()) - 1;
                         GUIPObj = gameMaster.playerInit(pRole, 0, P1Name.getText());
+
                         P1Label.setText(GUIPObj[0].name);
                         P1Label.setVisible(true);
                         P1HP.setText(Integer.toString(GUIPObj[0].hp) + "/" + Integer.toString(GUIPObj[0].maxHP));
                         P1MP.setText(Integer.toString(GUIPObj[0].mp));
-                        P1Role.setVisible(false);
-                        P1Role.setEnabled(false);
+
+                        P1Output.setText("");
+                        // P1Name.setEditable(false);
+                        // P1Name.setVisible(false);
+                        // P1Output.setEditable(false);
+                        // P1Output.setText("");
+                        // pRole = Integer.parseInt(P1Output.getText()) - 1;
+                        // GUIPObj = gameMaster.playerInit(pRole, 0, P1Name.getText());
+                        // P1Label.setText(GUIPObj[0].name);
+                        // P1Label.setVisible(true);
+                        // P1HP.setText(Integer.toString(GUIPObj[0].hp) + "/" + Integer.toString(GUIPObj[0].maxHP));
+                        // P1MP.setText(Integer.toString(GUIPObj[0].mp));
+                        // P1Role.setVisible(false);
+                        // P1Role.setEnabled(false);
                         break;
                 case 5:
-                        //PLAYER 1 IS INDEX 0
+                        //PLAYER 2 IS INDEX 1
                         P2Name.setEditable(false);
                         P2Name.setVisible(false);
                         P2Output.setEditable(false);
+                        P2Output.setPreferredSize(new Dimension(125, 60));
+                        P2Role.setVisible(false);
+                        P2Role.setEnabled(false);
+
+                        P2Role.setVisible(false);
+                        P2Role.setEnabled(false);
+
+                        
                         pRole = Integer.parseInt(P2Output.getText()) - 1;
                         GUIPObj = gameMaster.playerInit(pRole, 1, P2Name.getText());
+
                         P2Label.setText(GUIPObj[1].name);
                         P2Label.setVisible(true);
                         P2HP.setText(Integer.toString(GUIPObj[1].hp) + "/" + Integer.toString(GUIPObj[1].maxHP));
                         P2MP.setText(Integer.toString(GUIPObj[1].mp));
-                        P2Role.setVisible(false);
-                        P2Role.setEnabled(false);
+
+                        P2Output.setText("");
                         break;
                 case 6:
-                        //PLAYER 1 IS INDEX 0
+                        //PLAYER 3 IS INDEX 2
                         P3Name.setEditable(false);
                         P3Name.setVisible(false);
                         P3Output.setEditable(false);
+                        P3Output.setPreferredSize(new Dimension(125, 60));
+                        P3Role.setVisible(false);
+                        P3Role.setEnabled(false);
+
+                        P3Role.setVisible(false);
+                        P3Role.setEnabled(false);
+
+                        
                         pRole = Integer.parseInt(P3Output.getText()) - 1;
                         GUIPObj = gameMaster.playerInit(pRole, 2, P3Name.getText());
+
                         P3Label.setText(GUIPObj[2].name);
                         P3Label.setVisible(true);
                         P3HP.setText(Integer.toString(GUIPObj[2].hp) + "/" + Integer.toString(GUIPObj[2].maxHP));
                         P3MP.setText(Integer.toString(GUIPObj[2].mp));
-                        P3Role.setVisible(false);
-                        P3Role.setEnabled(false);
+
+                        P3Output.setText("");
+                        // P3Name.setEditable(false);
+                        // P3Name.setVisible(false);
+                        // P3Output.setEditable(false);
+                        // P3Output.setText("");
+                        // pRole = Integer.parseInt(P3Output.getText()) - 1;
+                        // GUIPObj = gameMaster.playerInit(pRole, 2, P3Name.getText());
+                        // P3Label.setText(GUIPObj[2].name);
+                        // P3Label.setVisible(true);
+                        // P3HP.setText(Integer.toString(GUIPObj[2].hp) + "/" + Integer.toString(GUIPObj[2].maxHP));
+                        // P3MP.setText(Integer.toString(GUIPObj[2].mp));
+                        // P3Role.setVisible(false);
+                        // P3Role.setEnabled(false);
                         break;
+            }
+        }
+
+        void playerOutput(int index, String newOutput)
+        {
+            int currHP;
+            JCRPG_code.Entity entity = new JCRPG_code.Entity();
+
+            switch (index)
+            {
+                case 0:
+                        P1Output.setFont(new Font("Arial", Font.PLAIN, 10));
+                        P1Output.setText(newOutput);
+                        // currHP = Integer.parseInt(P1HP.getText());
+                        // GUIPObj[index].hp = (entity.HPset(gameMaster.playerUpdate(), -(currHP - GUIPObj[index].maxHP), index));
+                        // GUIPObj[index].hp = GUIPObj[index].maxHP;
+                        // P1HP.setText(Integer.toString(GUIPObj[0].maxHP) + "/" + Integer.toString(GUIPObj[0].maxHP));
+                case 1:
+                        P2Output.setFont(new Font("Arial", Font.PLAIN, 10));
+                        P2Output.setText(newOutput);
+                        // currHP = Integer.parseInt(P1HP.getText());
+                        // GUIPObj[index].hp = (entity.HPset(gameMaster.playerUpdate(), -(currHP - GUIPObj[index].maxHP), index));
+                        // GUIPObj[index].hp = GUIPObj[index].maxHP;
+                        // P2HP.setText(Integer.toString(GUIPObj[1].maxHP) + "/" + Integer.toString(GUIPObj[1].maxHP));
+                case 2:
+                        P3Output.setFont(new Font("Arial", Font.PLAIN, 10));
+                        P3Output.setText(newOutput);
+                        // currHP = Integer.parseInt(P1HP.getText());
+                        // GUIPObj[index].hp = (entity.HPset(gameMaster.playerUpdate(), -(currHP - GUIPObj[index].maxHP), index));
+                        // GUIPObj[index].hp = GUIPObj[index].maxHP;
+                        // P3HP.setText(Integer.toString(GUIPObj[2].maxHP) + "/" + Integer.toString(GUIPObj[2].maxHP));
+                    
+                    break;
+            }
+        }
+
+        public String grabGMOutput(int chapIndex)
+        {
+            return gameMaster.GUIGMUpdate(chapIndex);
+        }
+        
+        public void combatOutsource(int player, int monster)
+        {
+            combatProceeding = "";
+            String inProgressString = "";
+            switch(player)
+            {
+            case 0:
+                    combatProceeding = gameMaster.combatInit(player, monster);
+
+                    GMOutput.setText(combatProceeding);
+
+                    GUIPObj = gameMaster.playerUpdate();
+                    P1HP.setText(Integer.toString(GUIPObj[player].hp) + "/" + Integer.toString(GUIPObj[player].maxHP));
+                    P1MP.setText(Integer.toString(GUIPObj[player].mp));
+                    if (GUIPObj[player].hp <= 0)
+                    {
+                        P1Output.setText("Fallen in battle against " + GUIMObj[monster].name);
+                    }
+                    GMOutput.setPreferredSize(new Dimension(300, 350));
+                    GMScroll.setPreferredSize(new Dimension(30, 350));
+            case 1:
+                    combatProceeding = gameMaster.combatInit(player, monster);
+
+                    GMOutput.setText(combatProceeding);
+
+                    GUIPObj = gameMaster.playerUpdate();
+                    P2HP.setText(Integer.toString(GUIPObj[player].hp) + "/" + Integer.toString(GUIPObj[player].maxHP));
+                    P2MP.setText(Integer.toString(GUIPObj[player].mp));
+                    if (GUIPObj[player].hp <= 0)
+                    {
+                        P2Output.setText("Fallen in battle against " + GUIMObj[monster].name);
+                    }
+                    GMOutput.setPreferredSize(new Dimension(300, 350));
+                    GMScroll.setPreferredSize(new Dimension(30, 350));
+            case 2:
+                    combatProceeding = gameMaster.combatInit(player, monster);
+
+                    GMOutput.setText(combatProceeding);
+
+                    GUIPObj = gameMaster.playerUpdate();
+                    P3HP.setText(Integer.toString(GUIPObj[player].hp) + "/" + Integer.toString(GUIPObj[player].maxHP));
+                    P3MP.setText(Integer.toString(GUIPObj[player].mp));
+                    if (GUIPObj[player].hp <= 0)
+                    {
+                        P3Output.setText("Fallen in battle against " + GUIMObj[monster].name);
+                    }
+                    GMOutput.setPreferredSize(new Dimension(300, 350));
+                    GMScroll.setPreferredSize(new Dimension(30, 350));
+            }
+            if (GUIPObj[0].hp <= 0 && GUIPObj[1].hp <= 0 && GUIPObj[2].hp <= 0)
+            {
+                nextButton.setEnabled(false);
             }
         }
 }
